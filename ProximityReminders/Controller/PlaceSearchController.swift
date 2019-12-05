@@ -46,9 +46,8 @@ class PlaceSearchController: UIViewController {
         if let chosenPlace = self.chosenPlace {
             placeSaverDelegate?.savePlace(chosenPlace)
         } else {
-            self.presentAlert(withTitle: "Please search for, and select, a location to save", message: nil)
+            self.presentAlert(withTitle: "Please select a location to save", message: nil)
         }
-        
     }
     
     
