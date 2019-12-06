@@ -46,7 +46,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="492"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlaceCell" textLabel="V2B-Rw-iiJ" detailTextLabel="6Qo-lK-D1g" style="IBUITableViewCellStyleSubtitle" id="M7G-Oq-WSf">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlaceCell" textLabel="V2B-Rw-iiJ" detailTextLabel="6Qo-lK-D1g" style="IBUITableViewCellStyleSubtitle" id="M7G-Oq-WSf" customClass="PlaceCell" customModule="ProximityReminders" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="M7G-Oq-WSf" id="Jqd-h0-m0t">
@@ -96,6 +96,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="directionSegmentedControl" destination="mae-OG-IoE" id="ryQ-Ha-87A"/>
                         <outlet property="mapView" destination="0fV-lr-JtI" id="4j8-1E-Vu6"/>
                         <outlet property="placesTableView" destination="arm-7I-qZj" id="Fc5-84-r1d"/>
                     </connections>
@@ -166,7 +167,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="J4T-09-psx" userLabel="ReminderTextStack View">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="190"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="160.5"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" text="Reminder Title" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2ld-cu-JZS" userLabel="ReminderTitle Text Field">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
@@ -179,7 +180,7 @@
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Enter extra notes here" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dPa-7p-HU1" userLabel="ReminderDetail Text View">
-                                                <rect key="frame" x="0.0" y="58" width="414" height="132"/>
+                                                <rect key="frame" x="0.0" y="58" width="414" height="102.5"/>
                                                 <color key="backgroundColor" red="0.51405602689999996" green="0.80995935200000002" blue="0.95208996530000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -194,16 +195,18 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="46" translatesAutoresizingMaskIntoConstraints="NO" id="5D0-mu-5io" userLabel="SelectLocationStack View">
-                                        <rect key="frame" x="8" y="204" width="398" height="20.5"/>
+                                        <rect key="frame" x="8" y="174.5" width="398" height="50"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dqB-hT-tEZ">
-                                                <rect key="frame" x="0.0" y="0.0" width="50" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                <color key="backgroundColor" red="0.51405602689999996" green="0.80995935200000002" blue="0.95208996530000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="50" id="O1h-Kz-3lP"/>
+                                                    <constraint firstAttribute="height" constant="50" id="O1h-Kz-3lP"/>
+                                                    <constraint firstAttribute="width" constant="50" id="iSc-Mg-1Et"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click here to set location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wc3-Hn-Fr9">
-                                                <rect key="frame" x="96" y="0.0" width="302" height="20.5"/>
+                                                <rect key="frame" x="96" y="0.0" width="302" height="50"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.51405602689999996" green="0.80995935200000002" blue="0.95208996530000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -217,17 +220,17 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ESd-u6-04z" userLabel="ReminderFrequency Stack View">
                                         <rect key="frame" x="8" y="238.5" width="398" height="21.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alert me when:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P2y-bu-rZq">
-                                                <rect key="frame" x="0.0" y="0.0" width="122" height="21.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set reminder as:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P2y-bu-rZq">
+                                                <rect key="frame" x="0.0" y="0.0" width="132" height="21.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="z3T-Ef-qT1">
-                                                <rect key="frame" x="132" y="0.0" width="266" height="22.5"/>
+                                                <rect key="frame" x="142" y="0.0" width="256" height="22.5"/>
                                                 <segments>
-                                                    <segment title="Arriving"/>
-                                                    <segment title="Departing"/>
+                                                    <segment title="Recurring"/>
+                                                    <segment title="Once Only"/>
                                                 </segments>
                                             </segmentedControl>
                                         </subviews>
@@ -259,6 +262,13 @@
                         <viewLayoutGuide key="safeArea" id="0VB-19-jTl"/>
                     </view>
                     <navigationItem key="navigationItem" id="NmS-8M-gdA"/>
+                    <connections>
+                        <outlet property="detailTextField" destination="dPa-7p-HU1" id="lC0-TF-kiA"/>
+                        <outlet property="directionSegmentedControl" destination="z3T-Ef-qT1" id="T2b-xY-0Qh"/>
+                        <outlet property="locationLabel" destination="wc3-Hn-Fr9" id="ReR-LQ-dBq"/>
+                        <outlet property="mapView" destination="1qS-Xn-pnh" id="TDg-cI-tjQ"/>
+                        <outlet property="titleTextField" destination="2ld-cu-JZS" id="veD-O1-M7n"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gST-Lb-j5i" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="Vgv-5u-0rR">

@@ -14,10 +14,10 @@ class PlaceSearchController: UIViewController {
     var placeSaverDelegate: PlaceSaverDelegate?
     
     @IBOutlet weak var placesTableView: UITableView!
+    @IBOutlet weak var directionSegmentedControl: UISegmentedControl!
     @IBOutlet weak var mapView: MKMapView!
     
     
-    let tempData = ["1","2","3","4","5","6","7","8","9","10"]
     var filteredData: [MKMapItem] = []
     var chosenPlace: MKMapItem?
     let searchController = UISearchController(searchResultsController: nil)
@@ -32,8 +32,6 @@ class PlaceSearchController: UIViewController {
         
         mapView.delegate = self
         
-        //filteredData = tempData
-        
         configureSearchController()
         configureUI()
         
@@ -44,7 +42,9 @@ class PlaceSearchController: UIViewController {
     
     @IBAction func saveLocationButtonPressed(_ sender: UIBarButtonItem) {
         if let chosenPlace = self.chosenPlace {
-            placeSaverDelegate?.savePlace(chosenPlace)
+            let direction: Direction = directionSegmentedControl.selectedSegmentIndex == 0 ? .arriving : .departing
+            placeSaverDelegate?.saveItems(chosenPlace, direction: direction)
+            self.navigationController?.popViewController(animated: true)
         } else {
             self.presentAlert(withTitle: "Please select a location to save", message: nil)
         }
@@ -61,11 +61,10 @@ extension PlaceSearchController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PlaceCell") else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PlaceCell") as? PlaceCell else { return UITableViewCell() }
         
-        cell.textLabel?.text = filteredData[indexPath.row].name
-        cell.detailTextLabel?.text = filteredData[indexPath.row].placemark.thoroughfare
-        //print("GPS coords are: \(filteredData[indexPath.row].placemark.location?.)")
+        cell.configure(using: filteredData[indexPath.row])
+        
         return cell
     }
 }
@@ -78,7 +77,7 @@ extension PlaceSearchController: UITableViewDelegate {
             chosenPlace = filteredData[indexPath.row]
             
             //Adjust the map to reflect the chosen place:
-            adjustMap(with: coordinate)
+            mapView.adjust(centreTo: coordinate, span: 500, regionRadius: 100)
         }
     }
 }
@@ -144,25 +143,11 @@ extension PlaceSearchController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Places"
+        searchController.hidesNavigationBarDuringPresentation = false
         navigationItem.searchController = searchController
         definesPresentationContext = true
         
         searchController.searchBar.delegate = self
-    }
-    
-    //Move the map to the centre at the specified co-ordinate & add pin
-    func adjustMap(with coordinate: CLLocationCoordinate2D) {
-        
-//        let pin = MKPointAnnotation()
-//        pin.coordinate = coordinate.twoDimensional()
-//        pin.title = "Last Saved Location"
-        
-        mapView.setRegion(around: coordinate, withSpan: 500)
-        //mapView.addAnnotation(pin)
-        
-        let circle = MKCircle(center: coordinate,
-                              radius: 100)
-        mapView.addOverlay(circle)
     }
     
     //Basic UI Setup for this view controller

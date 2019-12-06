@@ -11,11 +11,20 @@ import MapKit
 extension MKMapView {
     
     //Sets the map’s region given a co-ordinate and span
-    func setRegion(around coordinate: CLLocationCoordinate2D, withSpan span: Double) {
+    private func setRegion(around coordinate: CLLocationCoordinate2D, withSpan span: Double) {
         let span = MKCoordinateRegion(center: coordinate, latitudinalMeters: span, longitudinalMeters: span).span
         let region = MKCoordinateRegion(center: coordinate, span: span)
         self.setRegion(region, animated: true)
     }
+    
+    func adjust(centreTo centre: CLLocationCoordinate2D, span: Double, regionRadius: Double) {
+        
+        self.setRegion(around: centre, withSpan: span)
+        
+        let circle = MKCircle(center: centre, radius: regionRadius)
+        self.addOverlay(circle)
+    }
+
 }
 
 
