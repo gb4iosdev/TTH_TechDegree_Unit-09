@@ -26,6 +26,7 @@
 		8684BF4C23947881007F303D /* MKMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684BF4B23947881007F303D /* MKMapView.swift */; };
 		86B2B4AA23991DD2007BE9C2 /* ReminderEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B2B4A923991DD2007BE9C2 /* ReminderEditController.swift */; };
 		86B2B4AE23991FA5007BE9C2 /* ReminderListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B2B4AD23991FA5007BE9C2 /* ReminderListController.swift */; };
+		86CBB2BD239B2E59007818A0 /* MapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CBB2BC239B2E59007818A0 /* MapItem.swift */; };
 		86F682C72393EA0800216721 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F682C62393EA0800216721 /* AppDelegate.swift */; };
 		86F682CC2393EA0800216721 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86F682CA2393EA0800216721 /* Main.storyboard */; };
 		86F682CF2393EA0800216721 /* ProximityReminders.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 86F682CD2393EA0800216721 /* ProximityReminders.xcdatamodeld */; };
@@ -53,6 +54,7 @@
 		8684BF4B23947881007F303D /* MKMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKMapView.swift; sourceTree = "<group>"; };
 		86B2B4A923991DD2007BE9C2 /* ReminderEditController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderEditController.swift; sourceTree = "<group>"; };
 		86B2B4AD23991FA5007BE9C2 /* ReminderListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderListController.swift; sourceTree = "<group>"; };
+		86CBB2BC239B2E59007818A0 /* MapItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapItem.swift; sourceTree = "<group>"; };
 		86F682C32393EA0800216721 /* ProximityReminders.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProximityReminders.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86F682C62393EA0800216721 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86F682CB2393EA0800216721 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				8601B5F42398A2C600260305 /* UIViewController+UIAlertController.swift */,
 				8684BF4B23947881007F303D /* MKMapView.swift */,
 				865362B12399CD4500F9FBED /* UIWindow.swift */,
+				86CBB2BC239B2E59007818A0 /* MapItem.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 				8684BF3C23940828007F303D /* PlaceSearchController.swift in Sources */,
 				865362BC2399F51400F9FBED /* Reminder+CoreDataProperties.swift in Sources */,
 				86B2B4AE23991FA5007BE9C2 /* ReminderListController.swift in Sources */,
+				86CBB2BD239B2E59007818A0 /* MapItem.swift in Sources */,
 				865362AE2399C84C00F9FBED /* Direction.swift in Sources */,
 				86F682CF2393EA0800216721 /* ProximityReminders.xcdatamodeld in Sources */,
 				8684BF4C23947881007F303D /* MKMapView.swift in Sources */,

@@ -22,7 +22,7 @@ final class CoreDataStack {
     }()
     
     private lazy var persistentContainer: NSPersistentContainer  = {
-        let container = NSPersistentContainer (name: "DiaryList")
+        let container = NSPersistentContainer (name: "ProximityReminders")
         container.loadPersistentStores() { storeDescription, error in
             if let error = error as NSError? {
                 

@@ -9,6 +9,7 @@
 
 import Foundation
 import CoreData
+import MapKit
 
 
 extension Location {
@@ -20,5 +21,16 @@ extension Location {
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
     @NSManaged public var reminder: Reminder?
+    
+    class func fromCLLocationCoordinate2D(coordinate2d: CLLocationCoordinate2D) -> Location {
+        let location = Location(context: CoreDataStack.shared.managedObjectContext)
+        location.latitude = coordinate2d.latitude
+        location.longitude = coordinate2d.longitude
+        return location
+    }
+    
+    func asCLLocationCoordinate2D() -> CLLocationCoordinate2D {
+        return CLLocationCoordinate2DMake(self.latitude, self.longitude)
+    }
 
 }

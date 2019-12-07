@@ -23,14 +23,7 @@ class PlaceCell: UITableViewCell {
     
     func configure(using mapItem: MKMapItem) {
         self.textLabel?.text = mapItem.name
-        
-        //Build street address
-        let placemark = mapItem.placemark
-        let number = placemark.subThoroughfare ?? ""
-        let street = placemark.thoroughfare ?? ""
-        let city = placemark.locality ?? ""
-        let country = placemark.country ?? ""
-        self.detailTextLabel?.text = "\(number) \(street), \(city), \(country)"
+        self.detailTextLabel?.text = mapItem.address
     }
 
 }

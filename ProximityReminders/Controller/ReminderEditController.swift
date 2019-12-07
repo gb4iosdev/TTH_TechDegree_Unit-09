@@ -11,20 +11,17 @@ import MapKit
 
 class ReminderEditController: UIViewController {
     
-    var context = CoreDataStack.shared.managedObjectContext
+    let context = CoreDataStack.shared.managedObjectContext
     
     var reminder: Reminder?
-    
-    var location: Coordinate?
-    var address: String?
-    var entering: Bool?
     
     //IBOutle variables
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var detailTextField: UITextView!
     @IBOutlet weak var locationLabel: UILabel!
     
-    @IBOutlet weak var directionSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var recurringSegmentedControl: UISegmentedControl!
+    
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -34,23 +31,43 @@ class ReminderEditController: UIViewController {
 
         //Load the UI if we have a reminder set
         if let reminder = self.reminder {
-            loadUI(with: reminder)
+            updateUI(with: reminder)
+        } else {    //Otherwise create a blank one
+            self.reminder = Reminder(context: context)
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if let coordinate = location {
-            mapView.adjust(centreTo: CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude), span: 1_000, regionRadius: 100)
+        if let location = reminder?.location {
+            mapView.adjust(centreTo: location.asCLLocationCoordinate2D(), span: 1_000, regionRadius: 100)
         }
     }
 
+}
+
+//MARK: - PlaceSaverDelegate method:
+extension ReminderEditController: PlaceSaverDelegate {
+    
+    func saveItems(_ mapItem: MKMapItem, arriving: Bool) {
+        print("Saving items now")
+        if let location2D = mapItem.placemark.location?.coordinate {
+            reminder?.location = Location.fromCLLocationCoordinate2D(coordinate2d: location2D)
+        }
+        
+        reminder?.address = mapItem.address
+        reminder?.arriving = arriving
+        
+        updateUI(with: self.reminder!)
+    }
+    
+    
 }
 
 //MARK: - Helper Methods:
 
 extension ReminderEditController {
     
-    func loadUI(with reminder: Reminder) {
+    func updateUI(with reminder: Reminder) {
         
         //Populate the UI fields from the reminder object.
         titleTextField.text = reminder.title
@@ -62,4 +79,20 @@ extension ReminderEditController {
         mapView.adjust(centreTo: coordinate, span: 1_000, regionRadius: 100)
     }
 
+}
+
+//MARK: - Segues
+
+extension ReminderEditController {
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        //Set the delegate to allow for saving
+        if segue.identifier == "ShowSearch", let searchController = segue.destination as? PlaceSearchController {
+            searchController.saverDelegate = self
+            let backItem = UIBarButtonItem()
+            backItem.title = "Cancel"
+            navigationItem.backBarButtonItem = backItem
+        }
+    }
 }

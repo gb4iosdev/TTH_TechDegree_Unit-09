@@ -264,16 +264,16 @@
                     <navigationItem key="navigationItem" id="NmS-8M-gdA"/>
                     <connections>
                         <outlet property="detailTextField" destination="dPa-7p-HU1" id="lC0-TF-kiA"/>
-                        <outlet property="directionSegmentedControl" destination="z3T-Ef-qT1" id="T2b-xY-0Qh"/>
                         <outlet property="locationLabel" destination="wc3-Hn-Fr9" id="ReR-LQ-dBq"/>
                         <outlet property="mapView" destination="1qS-Xn-pnh" id="TDg-cI-tjQ"/>
+                        <outlet property="recurringSegmentedControl" destination="z3T-Ef-qT1" id="otB-fS-wRV"/>
                         <outlet property="titleTextField" destination="2ld-cu-JZS" id="veD-O1-M7n"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gST-Lb-j5i" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="Vgv-5u-0rR">
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="show" id="r3n-gT-exR"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="ShowSearch" id="r3n-gT-exR"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

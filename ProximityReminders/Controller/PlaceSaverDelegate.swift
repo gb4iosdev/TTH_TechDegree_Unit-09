@@ -9,5 +9,5 @@
 import MapKit
 
 protocol PlaceSaverDelegate: class {
-    func saveItems(_: MKMapItem, direction: Direction)
+    func saveItems(_: MKMapItem, arriving: Bool)
 }

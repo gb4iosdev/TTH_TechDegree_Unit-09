@@ -11,7 +11,7 @@ import MapKit
 
 class PlaceSearchController: UIViewController {
     
-    var placeSaverDelegate: PlaceSaverDelegate?
+    var saverDelegate: PlaceSaverDelegate?
     
     @IBOutlet weak var placesTableView: UITableView!
     @IBOutlet weak var directionSegmentedControl: UISegmentedControl!
@@ -42,8 +42,8 @@ class PlaceSearchController: UIViewController {
     
     @IBAction func saveLocationButtonPressed(_ sender: UIBarButtonItem) {
         if let chosenPlace = self.chosenPlace {
-            let direction: Direction = directionSegmentedControl.selectedSegmentIndex == 0 ? .arriving : .departing
-            placeSaverDelegate?.saveItems(chosenPlace, direction: direction)
+            let arriving = directionSegmentedControl.selectedSegmentIndex == 0
+            saverDelegate?.saveItems(chosenPlace, arriving: arriving)
             self.navigationController?.popViewController(animated: true)
         } else {
             self.presentAlert(withTitle: "Please select a location to save", message: nil)
@@ -152,7 +152,7 @@ extension PlaceSearchController {
     
     //Basic UI Setup for this view controller
     func configureUI() {
-        self.navigationController?.navigationBar.topItem?.title = "Cancel"
+        //self.navigationController?.navigationBar.topItem?.title = "Cancel"
         self.navigationItem.rightBarButtonItem?.title = "Save Location"
     }
 }
