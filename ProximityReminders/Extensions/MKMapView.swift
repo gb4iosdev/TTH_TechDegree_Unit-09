@@ -24,6 +24,19 @@ extension MKMapView {
         let circle = MKCircle(center: centre, radius: regionRadius)
         self.addOverlay(circle)
     }
+    
+    func renderer(for overlay: MKOverlay) -> MKOverlayRenderer {
+        if let circleOverlay = overlay as? MKCircle {
+            let circleRenderer = MKCircleRenderer(overlay: circleOverlay)
+            circleRenderer.fillColor = .cyan
+            circleRenderer.strokeColor = .black
+            circleRenderer.lineWidth = 2.0
+            circleRenderer.alpha = 0.3
+            return circleRenderer
+        } else {
+            return MKOverlayRenderer()
+        }
+    }
 
 }
 

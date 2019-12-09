@@ -24,6 +24,7 @@
 		8684BF4623946289007F303D /* LocationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684BF4523946288007F303D /* LocationError.swift */; };
 		8684BF492394683D007F303D /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684BF482394683D007F303D /* Coordinate.swift */; };
 		8684BF4C23947881007F303D /* MKMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684BF4B23947881007F303D /* MKMapView.swift */; };
+		86AA43A9239DAC20005BBCD5 /* TableViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AA43A8239DAC20005BBCD5 /* TableViewExt.swift */; };
 		86B2B4AA23991DD2007BE9C2 /* ReminderEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B2B4A923991DD2007BE9C2 /* ReminderEditController.swift */; };
 		86B2B4AE23991FA5007BE9C2 /* ReminderListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B2B4AD23991FA5007BE9C2 /* ReminderListController.swift */; };
 		86CBB2BD239B2E59007818A0 /* MapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CBB2BC239B2E59007818A0 /* MapItem.swift */; };
@@ -52,6 +53,7 @@
 		8684BF4523946288007F303D /* LocationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationError.swift; sourceTree = "<group>"; };
 		8684BF482394683D007F303D /* Coordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 		8684BF4B23947881007F303D /* MKMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKMapView.swift; sourceTree = "<group>"; };
+		86AA43A8239DAC20005BBCD5 /* TableViewExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewExt.swift; sourceTree = "<group>"; };
 		86B2B4A923991DD2007BE9C2 /* ReminderEditController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderEditController.swift; sourceTree = "<group>"; };
 		86B2B4AD23991FA5007BE9C2 /* ReminderListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderListController.swift; sourceTree = "<group>"; };
 		86CBB2BC239B2E59007818A0 /* MapItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapItem.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				8684BF4B23947881007F303D /* MKMapView.swift */,
 				865362B12399CD4500F9FBED /* UIWindow.swift */,
 				86CBB2BC239B2E59007818A0 /* MapItem.swift */,
+				86AA43A8239DAC20005BBCD5 /* TableViewExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -241,6 +244,7 @@
 				865362B42399D23400F9FBED /* PlaceCell.swift in Sources */,
 				8684BF4623946289007F303D /* LocationError.swift in Sources */,
 				8684BF4023946235007F303D /* LocationManager.swift in Sources */,
+				86AA43A9239DAC20005BBCD5 /* TableViewExt.swift in Sources */,
 				8684BF4223946251007F303D /* LocationPermissionsDelegate.swift in Sources */,
 				8684BF492394683D007F303D /* Coordinate.swift in Sources */,
 				8662A6BC239A706500DCADA2 /* Location+CoreDataProperties.swift in Sources */,

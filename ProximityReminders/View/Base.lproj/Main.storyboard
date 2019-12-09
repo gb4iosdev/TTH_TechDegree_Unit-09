@@ -123,7 +123,7 @@
             </objects>
             <point key="canvasLocation" x="-638" y="135"/>
         </scene>
-        <!--Reminder List Controller-->
+        <!--My Reminders-->
         <scene sceneID="9wY-xE-QBl">
             <objects>
                 <tableViewController id="4hk-NE-KHY" customClass="ReminderListController" customModule="ProximityReminders" customModuleProvider="target" sceneMemberID="viewController">
@@ -140,7 +140,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="Z2q-bi-2I6" kind="show" id="jSQ-Fz-SoY"/>
+                                    <segue destination="Z2q-bi-2I6" kind="show" identifier="EditReminder" id="jSQ-Fz-SoY"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -149,7 +149,13 @@
                             <outlet property="delegate" destination="4hk-NE-KHY" id="Qy7-hs-RTV"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="l96-L7-Rs2"/>
+                    <navigationItem key="navigationItem" title="My Reminders" id="l96-L7-Rs2">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="pme-PR-GLj">
+                            <connections>
+                                <segue destination="Z2q-bi-2I6" kind="show" identifier="AddReminder" id="bwM-JF-Fkq"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fcK-H2-iJc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -169,7 +175,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="J4T-09-psx" userLabel="ReminderTextStack View">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="160.5"/>
                                         <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" text="Reminder Title" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2ld-cu-JZS" userLabel="ReminderTitle Text Field">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" borderStyle="roundedRect" placeholder="Reminder Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2ld-cu-JZS" userLabel="ReminderTitle Text Field">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                                 <color key="backgroundColor" red="0.51405602689999996" green="0.80995935200000002" blue="0.95208996530000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -182,7 +188,7 @@
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Enter extra notes here" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dPa-7p-HU1" userLabel="ReminderDetail Text View">
                                                 <rect key="frame" x="0.0" y="58" width="414" height="102.5"/>
                                                 <color key="backgroundColor" red="0.51405602689999996" green="0.80995935200000002" blue="0.95208996530000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="textColor" red="0.39987736940000002" green="0.63533413409999995" blue="0.7646096349" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
@@ -235,7 +241,7 @@
                                             </segmentedControl>
                                         </subviews>
                                     </stackView>
-                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="1qS-Xn-pnh">
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1qS-Xn-pnh">
                                         <rect key="frame" x="0.0" y="274" width="414" height="500"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="500" id="lPv-lB-eqj"/>
@@ -246,7 +252,9 @@
                                     <constraint firstItem="J4T-09-psx" firstAttribute="leading" secondItem="LvB-wS-X2T" secondAttribute="leading" id="10f-nB-Uq2"/>
                                     <constraint firstItem="5D0-mu-5io" firstAttribute="leading" secondItem="LvB-wS-X2T" secondAttribute="leading" constant="8" id="KyD-WT-hjV"/>
                                     <constraint firstAttribute="trailing" secondItem="J4T-09-psx" secondAttribute="trailing" id="OUR-i7-E7h"/>
+                                    <constraint firstItem="1qS-Xn-pnh" firstAttribute="leading" secondItem="LvB-wS-X2T" secondAttribute="leading" id="frm-EV-6Aa"/>
                                     <constraint firstAttribute="trailing" secondItem="ESd-u6-04z" secondAttribute="trailing" constant="8" id="gGF-NV-6oX"/>
+                                    <constraint firstAttribute="trailing" secondItem="1qS-Xn-pnh" secondAttribute="trailing" id="nDz-AY-cyv"/>
                                     <constraint firstItem="ESd-u6-04z" firstAttribute="leading" secondItem="LvB-wS-X2T" secondAttribute="leading" constant="8" id="qmY-ni-Zqx"/>
                                     <constraint firstAttribute="trailing" secondItem="5D0-mu-5io" secondAttribute="trailing" constant="8" id="tX5-fp-c7u"/>
                                 </constraints>
@@ -261,7 +269,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="0VB-19-jTl"/>
                     </view>
-                    <navigationItem key="navigationItem" id="NmS-8M-gdA"/>
+                    <navigationItem key="navigationItem" id="NmS-8M-gdA">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="TMh-i2-67X">
+                            <connections>
+                                <action selector="savePressed:" destination="Z2q-bi-2I6" id="ZzD-Q8-DKR"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="detailTextField" destination="dPa-7p-HU1" id="lC0-TF-kiA"/>
                         <outlet property="locationLabel" destination="wc3-Hn-Fr9" id="ReR-LQ-dBq"/>
@@ -280,4 +294,7 @@
             <point key="canvasLocation" x="1060.8695652173915" y="134.59821428571428"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="jSQ-Fz-SoY"/>
+    </inferredMetricsTieBreakers>
 </document>

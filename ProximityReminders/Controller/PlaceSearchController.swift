@@ -118,20 +118,7 @@ extension PlaceSearchController: UISearchResultsUpdating, UISearchBarDelegate {
 //  MARK: - Map Delegate methods
 extension PlaceSearchController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        if let circleOverlay = overlay as? MKCircle {
-            let circleRenderer = MKCircleRenderer(overlay: circleOverlay)
-            //circleRenderer.fillColor?.withAlphaComponent(0.1)
-            circleRenderer.fillColor = .cyan
-            circleRenderer.strokeColor = .black
-            //circleRenderer.strokeColor?.withAlphaComponent(0.8)
-            circleRenderer.lineWidth = 2.0
-            circleRenderer.alpha = 0.3
-            
-            
-            return circleRenderer
-        } else {
-            return MKOverlayRenderer()
-        }
+        return mapView.renderer(for: overlay)
     }
 }
 
