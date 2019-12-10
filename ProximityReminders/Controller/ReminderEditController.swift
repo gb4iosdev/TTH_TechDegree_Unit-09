@@ -8,11 +8,18 @@
 
 import UIKit
 import MapKit
-import CoreData
 
 class ReminderEditController: UIViewController {
     
-    var context = CoreDataStack.shared.managedObjectContext
+    //IBOutle variables
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var detailTextField: UITextView!
+    @IBOutlet weak var locationLabel: UILabel!
+    
+    @IBOutlet weak var recurringSegmentedControl: UISegmentedControl!
+    
+    @IBOutlet weak var mapView: MKMapView!
+    
     var reminder: Reminder?
     
     //Temporary variables used to create a Reminder if save is selected
@@ -24,16 +31,6 @@ class ReminderEditController: UIViewController {
     let mapSpan: Double = 1_000
     let mapRegionRadius: Double = 100
     
-    //IBOutle variables
-    @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var detailTextField: UITextView!
-    @IBOutlet weak var locationLabel: UILabel!
-    
-    @IBOutlet weak var recurringSegmentedControl: UISegmentedControl!
-    
-    @IBOutlet weak var mapView: MKMapView!
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -43,56 +40,49 @@ class ReminderEditController: UIViewController {
         }
         
         mapView.delegate = self
-        
     }
     
     @IBAction func savePressed(_ sender: UIBarButtonItem) {
-        
-        //Input Validation
-        guard !titleTextField.text!.isEmpty else {
-            presentAlert(withTitle: "Please enter a title for the Reminder", message: nil)
-            return
+        if let reminder = reminder {
+            guard let title = titleTextField.text, !title.isEmpty else {
+                presentAlert(withTitle: "Please enter a title for the Reminder", message: nil)
+                return
+            }
+            
+            guard let detailText = detailTextField.text, !detailText.isEmpty else {
+                presentAlert(withTitle: "Please enter some detauls for the Reminder", message: nil)
+                return
+            }
+            
+            guard let location = location, let address = address, let arriving = arriving else {
+                presentAlert(withTitle: "Please select a location for the Reminder", message: nil)
+                return
+            }
+            
+            reminder.title = title
+            reminder.detail = detailText
+            reminder.location = location
+            reminder.address = address
+            reminder.recurring = recurringSegmentedControl.selectedSegmentIndex == 0 ? true : false
+            reminder.arriving = arriving
+            
+            CoreDataStack.shared.managedObjectContext.saveChanges()
+        } else {
+            do {
+                try Reminder.save(with: titleTextField.text, address: address, detail: detailTextField.text, recurring: recurringSegmentedControl.selectedSegmentIndex == 0 ? true : false, location: location)
+            } catch {
+                presentAlert(withTitle: "Error", message: error.localizedDescription)
+            }
         }
-        guard let location = self.location, let address = self.address, let arriving = self.arriving else {
-            presentAlert(withTitle: "Please select a location for the Reminder", message: nil)
-            return
-        }
-        
-        if self.reminder == nil {    //If we have a nil reminder we have been dealing with a temporary object & need to create a new one
-            print("Creating a new reminder")
-            let reminder = Reminder(context: context)
-            reminder.uuid = UUID().uuidString
-            reminder.creationDate = Date() as NSDate
-            self.reminder = reminder
-        }
-        
-        
-        reminder?.title = titleTextField.text!
-        reminder?.detail = detailTextField.text
-        reminder?.recurring = recurringSegmentedControl.selectedSegmentIndex  == 0
-        reminder?.location = location
-        reminder?.address = address
-        reminder?.arriving = arriving
-        print("reminder is: \(reminder!)")
-        
-        //Data persistence
-        context.saveChanges()
-        
-
         print("Confirming saved from Reminder Edit Controller")
         
         navigationController?.popToRootViewController(animated: true)
-
     }
-    
-
 }
 
 //MARK: - PlaceSaverDelegate method:
-extension ReminderEditController: PlaceSaverDelegate {
-    
-    func saveItems(_ mapItem: MKMapItem, arriving: Bool) {
-        
+extension ReminderEditController: PlaceSearchControllerDelegate {
+    func placeSearchController(_ placeSearchController: PlaceSearchController, didFinishSelectingItems mapItem: MKMapItem, arriving: Bool) {
         if let location2D = mapItem.placemark.location?.coordinate {
             print("Saving items from PlaceSearchController now")
             self.location = Location.fromCLLocationCoordinate2D(coordinate2d: location2D)
@@ -104,22 +94,17 @@ extension ReminderEditController: PlaceSaverDelegate {
         
         self.arriving = arriving
     }
-    
-    
 }
 
 //MARK: - Helper Methods:
 
 extension ReminderEditController {
-    
     func load(from reminder: Reminder) {
-        
-        //Assign to local variables where appropriate:
-        self.location = reminder.location
-        self.address = reminder.address
-        self.arriving = reminder.arriving
-        
         //Populate the UI fields from the reminder object.
+        location = reminder.location
+        address = reminder.address
+        arriving = reminder.arriving
+        
         titleTextField.text = reminder.title
         detailTextField.text = reminder.detail
         locationLabel.text = reminder.address
@@ -128,7 +113,6 @@ extension ReminderEditController {
         let coordinate = CLLocationCoordinate2DMake(reminder.location.latitude, reminder.location.longitude)
         mapView.adjust(centreTo: coordinate, span: 1_000, regionRadius: 100)
     }
-
 }
 
 //  MARK: - Map Delegate methods
@@ -141,12 +125,10 @@ extension ReminderEditController: MKMapViewDelegate {
 //MARK: - Segues
 
 extension ReminderEditController {
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         //Set the delegate to allow for saving
         if segue.identifier == "ShowSearch", let searchController = segue.destination as? PlaceSearchController {
-            searchController.saverDelegate = self
+            searchController.delegate = self
             let backItem = UIBarButtonItem()
             backItem.title = "Cancel"
             navigationItem.backBarButtonItem = backItem

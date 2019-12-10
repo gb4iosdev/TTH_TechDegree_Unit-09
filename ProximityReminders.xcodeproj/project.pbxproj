@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8601B5F323989E4C00260305 /* PlaceSaverDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8601B5F223989E4C00260305 /* PlaceSaverDelegate.swift */; };
+		8601B5F323989E4C00260305 /* PlaceSearchControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8601B5F223989E4C00260305 /* PlaceSearchControllerDelegate.swift */; };
 		8601B5F52398A2C600260305 /* UIViewController+UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8601B5F42398A2C600260305 /* UIViewController+UIAlertController.swift */; };
 		865362AE2399C84C00F9FBED /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865362AD2399C84C00F9FBED /* Direction.swift */; };
 		865362B02399CD2100F9FBED /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865362AF2399CD2100F9FBED /* CoreDataStack.swift */; };
@@ -36,7 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8601B5F223989E4C00260305 /* PlaceSaverDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSaverDelegate.swift; sourceTree = "<group>"; };
+		8601B5F223989E4C00260305 /* PlaceSearchControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchControllerDelegate.swift; sourceTree = "<group>"; };
 		8601B5F42398A2C600260305 /* UIViewController+UIAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+UIAlertController.swift"; sourceTree = "<group>"; };
 		865362AD2399C84C00F9FBED /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
 		865362AF2399CD2100F9FBED /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 				86B2B4AD23991FA5007BE9C2 /* ReminderListController.swift */,
 				86B2B4A923991DD2007BE9C2 /* ReminderEditController.swift */,
 				8684BF3B23940828007F303D /* PlaceSearchController.swift */,
-				8601B5F223989E4C00260305 /* PlaceSaverDelegate.swift */,
+				8601B5F223989E4C00260305 /* PlaceSearchControllerDelegate.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -240,7 +240,7 @@
 			files = (
 				865362B02399CD2100F9FBED /* CoreDataStack.swift in Sources */,
 				865362BB2399F51400F9FBED /* Reminder+CoreDataClass.swift in Sources */,
-				8601B5F323989E4C00260305 /* PlaceSaverDelegate.swift in Sources */,
+				8601B5F323989E4C00260305 /* PlaceSearchControllerDelegate.swift in Sources */,
 				865362B42399D23400F9FBED /* PlaceCell.swift in Sources */,
 				8684BF4623946289007F303D /* LocationError.swift in Sources */,
 				8684BF4023946235007F303D /* LocationManager.swift in Sources */,
