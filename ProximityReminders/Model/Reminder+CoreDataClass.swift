@@ -10,7 +10,36 @@
 import Foundation
 import CoreData
 
-
 public class Reminder: NSManagedObject {
-
+    enum Error: LocalizedError {
+        case titleMissing, addressMissing, detailMissing
+        
+        var errorDescription: String? {
+            switch self {
+            case .titleMissing: return "Please provide a title for the reminder"
+            case .addressMissing: return "Please provide an address for the reminder"
+            case .detailMissing: return "Please provide details for the reminder"
+            }
+        }
+    }
+    
+    static func save(with title: String?, address: String?, detail: String?, creationDate: Date = Date(), recurring: Bool = false, uuid: UUID = UUID(), location: Location? = nil) throws {
+        guard let title = title, !title.isEmpty else { throw Error.titleMissing }
+        guard let address = address, !address.isEmpty else { throw Error.addressMissing }
+        guard let detail = detail, !detail.isEmpty else { throw Error.detailMissing }
+        
+        let reminder = Reminder(context: CoreDataStack.shared.managedObjectContext)
+        reminder.title = title
+        reminder.address = address
+        reminder.detail = detail
+        reminder.creationDate = creationDate
+        reminder.recurring = recurring
+        reminder.uuid = uuid
+        
+        if let location = location {
+            reminder.location = location
+        }
+        
+        CoreDataStack.shared.managedObjectContext.saveChanges()
+    }
 }

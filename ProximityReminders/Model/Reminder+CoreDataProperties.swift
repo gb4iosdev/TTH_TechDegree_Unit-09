@@ -24,8 +24,8 @@ extension Reminder {
     @NSManaged public var arriving: Bool
     @NSManaged public var recurring: Bool
     @NSManaged public var address: String
-    @NSManaged public var uuid: String
-    @NSManaged public var creationDate: NSDate
+    @NSManaged public var uuid: UUID
+    @NSManaged public var creationDate: Date
     
     @NSManaged public var location: Location
 
