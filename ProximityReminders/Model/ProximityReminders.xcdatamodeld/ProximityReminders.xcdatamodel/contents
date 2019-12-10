@@ -1,19 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="19B88" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.99" systemVersion="19B88" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Location" representedClassName=".Location" syncable="YES">
-        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <relationship name="reminder" maxCount="1" deletionRule="Cascade" destinationEntity="Reminder" inverseName="location" inverseEntity="Reminder"/>
+        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES">
+            <userInfo/>
+        </attribute>
+        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES">
+            <userInfo/>
+        </attribute>
+        <relationship name="reminder" maxCount="1" deletionRule="Cascade" destinationEntity="Reminder" inverseName="location" inverseEntity="Reminder">
+            <userInfo/>
+        </relationship>
     </entity>
     <entity name="Reminder" representedClassName=".Reminder" syncable="YES">
-        <attribute name="address" attributeType="String"/>
-        <attribute name="arriving" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="detail" optional="YES" attributeType="String"/>
-        <attribute name="recurring" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="title" attributeType="String"/>
-        <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <relationship name="location" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Location" inverseName="reminder" inverseEntity="Location"/>
+        <attribute name="address" attributeType="String">
+            <userInfo/>
+        </attribute>
+        <attribute name="arriving" attributeType="Boolean" usesScalarValueType="YES">
+            <userInfo/>
+        </attribute>
+        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO">
+            <userInfo/>
+        </attribute>
+        <attribute name="detail" optional="YES" attributeType="String">
+            <userInfo/>
+        </attribute>
+        <attribute name="recurring" attributeType="Boolean" usesScalarValueType="YES">
+            <userInfo/>
+        </attribute>
+        <attribute name="title" attributeType="String">
+            <userInfo/>
+        </attribute>
+        <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO">
+            <userInfo/>
+        </attribute>
+        <relationship name="location" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Location" inverseName="reminder" inverseEntity="Location">
+            <userInfo/>
+        </relationship>
     </entity>
     <elements>
         <element name="Location" positionX="-63" positionY="9" width="128" height="90"/>
