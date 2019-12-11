@@ -65,8 +65,9 @@ class ReminderEditController: UIViewController {
             reminder.address = address
             reminder.recurring = recurringSegmentedControl.selectedSegmentIndex == 0 ? true : false
             reminder.arriving = arriving
-            
+            print("The reminder about to be saved is: \(reminder)")
             CoreDataStack.shared.managedObjectContext.saveChanges()
+            
         } else {
             do {
                 try Reminder.save(with: titleTextField.text, address: address, detail: detailTextField.text, recurring: recurringSegmentedControl.selectedSegmentIndex == 0 ? true : false, arriving: arriving ?? true, location: location)

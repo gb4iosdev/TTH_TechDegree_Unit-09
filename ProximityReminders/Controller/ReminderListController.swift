@@ -27,23 +27,21 @@ class ReminderListController: UITableViewController {
         } catch {
             presentAlert(withTitle: "Error:", message: error.localizedDescription)
         }
-        
-        //tableView.rowHeight = UITableView.automaticDimension
-        //tableView.estimatedRowHeight = 100
     }
+}
 
-    // MARK: - Table view data source
-
+//MARK: - TableView datasoure and delegate methods:
+extension ReminderListController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         // return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // return the number of rows
         return remindersFetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ReminderCell", for: indexPath) as? ReminderCell else { return UITableViewCell() }
         
@@ -52,7 +50,15 @@ class ReminderListController: UITableViewController {
         
         return cell
     }
-
+    
+    //Allow swipe to delete on the tableView rows
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
 }
 
 //MARK: - NSFetchedResultsControllerDelegate

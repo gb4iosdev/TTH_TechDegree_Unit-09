@@ -7,7 +7,7 @@
         <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES">
             <userInfo/>
         </attribute>
-        <relationship name="reminder" maxCount="1" deletionRule="Cascade" destinationEntity="Reminder" inverseName="location" inverseEntity="Reminder">
+        <relationship name="reminder" maxCount="1" deletionRule="Nullify" destinationEntity="Reminder" inverseName="location" inverseEntity="Reminder">
             <userInfo/>
         </relationship>
     </entity>
@@ -33,12 +33,12 @@
         <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO">
             <userInfo/>
         </attribute>
-        <relationship name="location" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Location" inverseName="reminder" inverseEntity="Location">
+        <relationship name="location" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Location" inverseName="reminder" inverseEntity="Location">
             <userInfo/>
         </relationship>
     </entity>
     <elements>
         <element name="Location" positionX="-63" positionY="9" width="128" height="90"/>
-        <element name="Reminder" positionX="-63" positionY="-18" width="128" height="163"/>
+        <element name="Reminder" positionX="-63" positionY="-18" width="128" height="165"/>
     </elements>
 </model>
