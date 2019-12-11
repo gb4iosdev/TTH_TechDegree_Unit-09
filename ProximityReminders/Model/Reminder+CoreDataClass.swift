@@ -23,7 +23,7 @@ public class Reminder: NSManagedObject {
         }
     }
     
-    static func save(with title: String?, address: String?, detail: String?, creationDate: Date = Date(), recurring: Bool = false, uuid: UUID = UUID(), location: Location? = nil) throws {
+    static func save(with title: String?, address: String?, detail: String?, creationDate: Date = Date(), recurring: Bool = false, uuid: UUID = UUID(), arriving: Bool, location: Location? = nil) throws {
         guard let title = title, !title.isEmpty else { throw Error.titleMissing }
         guard let address = address, !address.isEmpty else { throw Error.addressMissing }
         guard let detail = detail, !detail.isEmpty else { throw Error.detailMissing }
@@ -35,6 +35,7 @@ public class Reminder: NSManagedObject {
         reminder.creationDate = creationDate
         reminder.recurring = recurring
         reminder.uuid = uuid
+        reminder.arriving = arriving
         
         if let location = location {
             reminder.location = location

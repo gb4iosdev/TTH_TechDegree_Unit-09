@@ -28,6 +28,7 @@
 		86B2B4AA23991DD2007BE9C2 /* ReminderEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B2B4A923991DD2007BE9C2 /* ReminderEditController.swift */; };
 		86B2B4AE23991FA5007BE9C2 /* ReminderListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B2B4AD23991FA5007BE9C2 /* ReminderListController.swift */; };
 		86CBB2BD239B2E59007818A0 /* MapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CBB2BC239B2E59007818A0 /* MapItem.swift */; };
+		86ECE50B23A08C4C00D2E98B /* ReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86ECE50A23A08C4C00D2E98B /* ReminderCell.swift */; };
 		86F682C72393EA0800216721 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F682C62393EA0800216721 /* AppDelegate.swift */; };
 		86F682CC2393EA0800216721 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86F682CA2393EA0800216721 /* Main.storyboard */; };
 		86F682CF2393EA0800216721 /* ProximityReminders.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 86F682CD2393EA0800216721 /* ProximityReminders.xcdatamodeld */; };
@@ -57,6 +58,7 @@
 		86B2B4A923991DD2007BE9C2 /* ReminderEditController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderEditController.swift; sourceTree = "<group>"; };
 		86B2B4AD23991FA5007BE9C2 /* ReminderListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderListController.swift; sourceTree = "<group>"; };
 		86CBB2BC239B2E59007818A0 /* MapItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapItem.swift; sourceTree = "<group>"; };
+		86ECE50A23A08C4C00D2E98B /* ReminderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderCell.swift; sourceTree = "<group>"; };
 		86F682C32393EA0800216721 /* ProximityReminders.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProximityReminders.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86F682C62393EA0800216721 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86F682CB2393EA0800216721 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				86F682CA2393EA0800216721 /* Main.storyboard */,
 				86F682D22393EA0A00216721 /* LaunchScreen.storyboard */,
 				865362B32399D23400F9FBED /* PlaceCell.swift */,
+				86ECE50A23A08C4C00D2E98B /* ReminderCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 				86F682CF2393EA0800216721 /* ProximityReminders.xcdatamodeld in Sources */,
 				8684BF4C23947881007F303D /* MKMapView.swift in Sources */,
 				86F682C72393EA0800216721 /* AppDelegate.swift in Sources */,
+				86ECE50B23A08C4C00D2E98B /* ReminderCell.swift in Sources */,
 				8601B5F52398A2C600260305 /* UIViewController+UIAlertController.swift in Sources */,
 				8684BF442394627C007F303D /* LocationManagerDelegate.swift in Sources */,
 				86B2B4AA23991DD2007BE9C2 /* ReminderEditController.swift in Sources */,

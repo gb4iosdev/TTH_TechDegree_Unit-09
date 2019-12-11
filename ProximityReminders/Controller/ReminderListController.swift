@@ -27,6 +27,9 @@ class ReminderListController: UITableViewController {
         } catch {
             presentAlert(withTitle: "Error:", message: error.localizedDescription)
         }
+        
+        //tableView.rowHeight = UITableView.automaticDimension
+        //tableView.estimatedRowHeight = 100
     }
 
     // MARK: - Table view data source
@@ -42,8 +45,11 @@ class ReminderListController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ReminderCell", for: indexPath)
-        cell.textLabel?.text = remindersFetchedResultsController.object(at: indexPath).title
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ReminderCell", for: indexPath) as? ReminderCell else { return UITableViewCell() }
+        
+        let reminder = remindersFetchedResultsController.object(at: indexPath)
+        cell.configure(using: reminder)
+        
         return cell
     }
 

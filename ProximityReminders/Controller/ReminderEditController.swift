@@ -69,7 +69,7 @@ class ReminderEditController: UIViewController {
             CoreDataStack.shared.managedObjectContext.saveChanges()
         } else {
             do {
-                try Reminder.save(with: titleTextField.text, address: address, detail: detailTextField.text, recurring: recurringSegmentedControl.selectedSegmentIndex == 0 ? true : false, location: location)
+                try Reminder.save(with: titleTextField.text, address: address, detail: detailTextField.text, recurring: recurringSegmentedControl.selectedSegmentIndex == 0 ? true : false, arriving: arriving ?? true, location: location)
             } catch {
                 presentAlert(withTitle: "Error", message: error.localizedDescription)
             }
