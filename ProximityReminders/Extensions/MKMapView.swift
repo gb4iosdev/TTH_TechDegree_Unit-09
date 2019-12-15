@@ -21,6 +21,10 @@ extension MKMapView {
         
         self.setRegion(around: centre, withSpan: span)
         
+        //Remove any existing overlays
+        let overlays = self.overlays
+        self.removeOverlays(overlays)
+        
         let circle = MKCircle(center: centre, radius: regionRadius)
         self.addOverlay(circle)
     }

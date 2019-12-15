@@ -8,8 +8,11 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class ReminderEditController: UIViewController {
+    
+    private let context = CoreDataStack.shared.managedObjectContext
     
     //IBOutle variables
     @IBOutlet weak var titleTextField: UITextField!
@@ -28,8 +31,11 @@ class ReminderEditController: UIViewController {
     var arriving: Bool?
     
     //Map constants
-    let mapSpan: Double = 1_000
-    let mapRegionRadius: Double = 100
+    let mapSpan: Double = 500
+    let mapRegionRadius: Double = 50
+    
+    //Location Management
+    private let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +46,16 @@ class ReminderEditController: UIViewController {
         }
         
         mapView.delegate = self
+
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let location = self.location {
+            let coordinate = location.asCLLocationCoordinate2D()
+            print("Just about to adjust the map view - should draw a circle")
+            mapView.adjust(centreTo: coordinate, span: mapSpan, regionRadius: mapRegionRadius)
+        }
     }
     
     @IBAction func savePressed(_ sender: UIBarButtonItem) {
@@ -63,25 +79,29 @@ class ReminderEditController: UIViewController {
             reminder.detail = detailText
             reminder.location = location
             reminder.address = address
+            print("Setting Location to: \(location) for address: \(address)")
             reminder.recurring = recurringSegmentedControl.selectedSegmentIndex == 0 ? true : false
             reminder.arriving = arriving
-            print("The reminder about to be saved is: \(reminder)")
             CoreDataStack.shared.managedObjectContext.saveChanges()
-            
+            print("retrieved reminder is: \(String(describing: context.reminder(with: reminder.uuid)))")
+            createGeoFenceForReminder(withID: reminder.uuid)
         } else {
             do {
-                try Reminder.save(with: titleTextField.text, address: address, detail: detailTextField.text, recurring: recurringSegmentedControl.selectedSegmentIndex == 0 ? true : false, arriving: arriving ?? true, location: location)
+                let reminderUUID = UUID()
+                let arriving = self.arriving ?? true
+                try Reminder.save(with: titleTextField.text, address: address, detail: detailTextField.text, recurring: recurringSegmentedControl.selectedSegmentIndex == 0 ? true : false, uuid: reminderUUID, arriving: arriving, location: location)
+                print("retrieved reminder is: \(String(describing: context.reminder(with: reminderUUID)))")
+                createGeoFenceForReminder(withID: reminderUUID)
             } catch {
                 presentAlert(withTitle: "Error", message: error.localizedDescription)
             }
         }
-        print("Confirming saved from Reminder Edit Controller")
         
         navigationController?.popToRootViewController(animated: true)
     }
 }
 
-//MARK: - PlaceSaverDelegate method:
+//MARK: - PlaceSearchControllerDelegate method:
 extension ReminderEditController: PlaceSearchControllerDelegate {
     func placeSearchController(_ placeSearchController: PlaceSearchController, didFinishSelectingItems mapItem: MKMapItem, arriving: Bool) {
         if let location2D = mapItem.placemark.location?.coordinate {
@@ -111,8 +131,22 @@ extension ReminderEditController {
         locationLabel.text = reminder.address
         recurringSegmentedControl.selectedSegmentIndex = reminder.recurring ? 0 : 1
         
-        let coordinate = CLLocationCoordinate2DMake(reminder.location.latitude, reminder.location.longitude)
-        mapView.adjust(centreTo: coordinate, span: 1_000, regionRadius: 100)
+        
+    }
+    
+    func createGeoFenceForReminder(withID reminderID: UUID) {
+        
+        //Disable any geofences currently active with this ID
+        
+        //Load the reminder
+        guard let reminder = context.reminder(with: reminderID) else { return }
+        
+        //Create new geofence region
+        let region = CLCircularRegion(center: reminder.location.asCLLocationCoordinate2D(), radius: self.mapRegionRadius, identifier: reminder.uuid.uuidString)
+        region.notifyOnEntry = true
+        region.notifyOnExit = true
+        self.locationManager.startMonitoring(for: region)
+        print("Now monitoring: \(region)")
     }
 }
 

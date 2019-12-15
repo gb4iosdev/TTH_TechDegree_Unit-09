@@ -9,8 +9,12 @@
 
 import UIKit
 import CoreData
+import CoreLocation
 
 class ReminderListController: UITableViewController {
+    
+    private let context = CoreDataStack.shared.managedObjectContext
+    private let locationManager = CLLocationManager()
     
     //MARK: - NSFetchedResultsController
     private let remindersFetchedResultsController = NSFetchedResultsController(fetchRequest: Reminder.remindersFetchRequest(), managedObjectContext: CoreDataStack.shared.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
@@ -27,6 +31,13 @@ class ReminderListController: UITableViewController {
         } catch {
             presentAlert(withTitle: "Error:", message: error.localizedDescription)
         }
+        
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
+        //locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        print("Number of Regions monitored is: \(locationManager.monitoredRegions.count)")
     }
 }
 
@@ -52,12 +63,17 @@ extension ReminderListController {
     }
     
     //Allow swipe to delete on the tableView rows
+    
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
     }
     
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let reminder = remindersFetchedResultsController.object(at: indexPath)
+            context.delete(reminder)
+            context.saveChanges()
+        }
     }
 }
 
@@ -74,6 +90,24 @@ extension ReminderListController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
+}
+
+//  MARK: - Location Manager Delegate methods
+extension ReminderListController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        print("Entering Region: \(region)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        print("Exiting Region: \(region)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        print("User current location is: \(location)")
+    }
+    
 }
 
 //MARK: - Segues

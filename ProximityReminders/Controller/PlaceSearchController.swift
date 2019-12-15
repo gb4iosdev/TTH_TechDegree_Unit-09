@@ -77,7 +77,7 @@ extension PlaceSearchController: UITableViewDelegate {
             chosenPlace = filteredData[indexPath.row]
             
             //Adjust the map to reflect the chosen place:
-            mapView.adjust(centreTo: coordinate, span: 500, regionRadius: 100)
+            mapView.adjust(centreTo: coordinate, span: 400, regionRadius: 50)
         }
     }
 }

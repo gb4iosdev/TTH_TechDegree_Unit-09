@@ -57,4 +57,24 @@ extension NSManagedObjectContext {
             }
         }
     }
+    
+    func reminder(with uuid: UUID) -> Reminder? {
+        
+        let reminderFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Reminder")
+        reminderFetchRequest.predicate = NSPredicate(format: "uuid = %@", uuid.uuidString)
+        
+        do {
+            if let reminder = try self.fetch(reminderFetchRequest) as? [Reminder], !reminder.isEmpty {
+                return reminder.first
+            } else {
+                return nil
+            }
+        } catch {
+            // Present a modal alert to advise that retrieval was not succesful.
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let window = appDelegate.window else { return nil}
+            
+            window.presentAlert(with: "Error", message: error.localizedDescription)
+            return nil
+        }
+    }
 }

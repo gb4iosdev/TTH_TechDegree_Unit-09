@@ -27,7 +27,7 @@ extension Coordinate {
 extension Coordinate {
     
     //Return a CLLocationCoordinate2D from the coordinate to assist with map region creation
-    func twoDimensional() -> CLLocationCoordinate2D {
+    func asCLLocationCoordinate2D() -> CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
     }
 }

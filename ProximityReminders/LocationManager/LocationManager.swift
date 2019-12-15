@@ -9,8 +9,13 @@
 import Foundation
 import CoreLocation
 
+//final class LocationManager {
+//
+//    static let sharedManager = CLLocationManager()
+//}
+
 //Acts as Apple’s CLLocationManagerDelegate so that it can respond to location finding events, and informs it’s delegates of locations and permission events.
-class LocationManager: NSObject, CLLocationManagerDelegate {
+/*class LocationManager: NSObject, CLLocationManagerDelegate {
     private let manager = CLLocationManager()
     weak var permissionsDelegate: LocationPermissionsDelegate?
     weak var locationsDelegate: LocationManagerDelegate?
@@ -86,4 +91,4 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         locationsDelegate?.obtainedCoordinates(coordinate)
         
     }
-}
+}*/
