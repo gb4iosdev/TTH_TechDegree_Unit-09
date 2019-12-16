@@ -119,50 +119,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         print("location manager did Enter region in App delegate")
-        // customize your notification content
-
-        let content = UNMutableNotificationContent()
-        content.title = "Entering Region"
-        content.body = "Well-crafted body message"
-        content.sound = UNNotificationSound.default
         
-        // notification unique identifier, for this example, same as the region to avoid duplicate notifications
-        let identifier = region.identifier
+        //Use the region identifier to retrieve the Reminder object:
         
-        // the notification request object
-        let request = UNNotificationRequest(identifier: identifier,
-                                            content: content,
-                                            trigger: nil)
+        guard let reminderUUID = UUID(uuidString: region.identifier), let reminder = context.reminder(with: reminderUUID) else { return }
         
-        // trying to add the notification request to notification center
-        notificationCenter?.add(request, withCompletionHandler: { (error) in
-            if error != nil {
-                print("Error adding notification with identifier: \(identifier)")
-            }
-        })
+        //Create and execute the notification based on Reminder
+        self.notificationCenter?.notifyUsingReminder(reminder)
         
+        //Remove the region if this is not a recurring reminder and set it's flag to non-active
+        if !reminder.recurring {
+            manager.stopMonitoring(for: region)
+        }
         
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let window = appDelegate.window else { return }
-        
-        
-        //Call the presentAlert method from your UIWindow extension
-        window.presentAlert(with: "Location manager did enter region in the app delegate", message: nil)
-        /*if region is CLCircularRegion {
-            //handleEvent(for: region)                        //This is where you would fire the notification – but how from the app delegate??
-            
-            //Next you need to find if the region is a once-only fire, and stop it if so
-            //Use the region’s identifier to fetch the reminder from the datastore
-            guard let regionUUID = UUID(uuidString: region.identifier), let reminder = context.reminder(with: regionUUID) else { return }
-            
-            if !reminder.recurring {
-                //Need to search in the location manager for this particular region and stop the monitoring
-                for monitoredRegion in manager.monitoredRegions {
-                    if let circularRegion = monitoredRegion as? CLCircularRegion, circularRegion.identifier == region.identifier {
-                        manager.stopMonitoring(for: circularRegion)
-                    }
-                }
-            }
-        }*/
+        print("Region entry associated with reminder: \(reminder.title) no longer monitored")
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
@@ -197,6 +167,7 @@ extension AppDelegate: CLLocationManagerDelegate {
     }
 }
 
+//Notification delegate and helper methods
 extension AppDelegate: UNUserNotificationCenterDelegate {
     
     //Makes notification appear even if the app is in the foreground.  May want to disable this in preference for alerts.
@@ -204,6 +175,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // when app is onpen and in foregroud
         completionHandler(.alert)
     }
+    
+    
     
 }
 

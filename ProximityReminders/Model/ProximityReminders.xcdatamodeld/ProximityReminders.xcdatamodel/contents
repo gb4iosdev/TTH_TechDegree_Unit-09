@@ -24,6 +24,7 @@
         <attribute name="detail" optional="YES" attributeType="String">
             <userInfo/>
         </attribute>
+        <attribute name="isActive" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="recurring" attributeType="Boolean" usesScalarValueType="YES">
             <userInfo/>
         </attribute>
@@ -39,6 +40,6 @@
     </entity>
     <elements>
         <element name="Location" positionX="-63" positionY="9" width="128" height="90"/>
-        <element name="Reminder" positionX="-63" positionY="-18" width="128" height="165"/>
+        <element name="Reminder" positionX="-63" positionY="-18" width="128" height="180"/>
     </elements>
 </model>

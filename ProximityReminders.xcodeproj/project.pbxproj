@@ -17,6 +17,7 @@
 		865362BC2399F51400F9FBED /* Reminder+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865362BA2399F51400F9FBED /* Reminder+CoreDataProperties.swift */; };
 		8662A6BB239A706500DCADA2 /* Location+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8662A6B9239A706500DCADA2 /* Location+CoreDataClass.swift */; };
 		8662A6BC239A706500DCADA2 /* Location+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8662A6BA239A706500DCADA2 /* Location+CoreDataProperties.swift */; };
+		8668BC9723A6CC9B00E0B613 /* NotificationCentre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8668BC9623A6CC9B00E0B613 /* NotificationCentre.swift */; };
 		8684BF3C23940828007F303D /* PlaceSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684BF3B23940828007F303D /* PlaceSearchController.swift */; };
 		8684BF4023946235007F303D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684BF3F23946235007F303D /* LocationManager.swift */; };
 		8684BF4223946251007F303D /* LocationPermissionsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684BF4123946250007F303D /* LocationPermissionsDelegate.swift */; };
@@ -47,6 +48,7 @@
 		865362BA2399F51400F9FBED /* Reminder+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reminder+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8662A6B9239A706500DCADA2 /* Location+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8662A6BA239A706500DCADA2 /* Location+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		8668BC9623A6CC9B00E0B613 /* NotificationCentre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentre.swift; sourceTree = "<group>"; };
 		8684BF3B23940828007F303D /* PlaceSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchController.swift; sourceTree = "<group>"; };
 		8684BF3F23946235007F303D /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		8684BF4123946250007F303D /* LocationPermissionsDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPermissionsDelegate.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				865362B12399CD4500F9FBED /* UIWindow.swift */,
 				86CBB2BC239B2E59007818A0 /* MapItem.swift */,
 				86AA43A8239DAC20005BBCD5 /* TableViewExt.swift */,
+				8668BC9623A6CC9B00E0B613 /* NotificationCentre.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 				86ECE50B23A08C4C00D2E98B /* ReminderCell.swift in Sources */,
 				8601B5F52398A2C600260305 /* UIViewController+UIAlertController.swift in Sources */,
 				8684BF442394627C007F303D /* LocationManagerDelegate.swift in Sources */,
+				8668BC9723A6CC9B00E0B613 /* NotificationCentre.swift in Sources */,
 				86B2B4AA23991DD2007BE9C2 /* ReminderEditController.swift in Sources */,
 				865362B22399CD4500F9FBED /* UIWindow.swift in Sources */,
 			);

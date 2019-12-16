@@ -151,7 +151,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="1Cf-0h-yBE" userLabel="Address Stack View">
                                                     <rect key="frame" x="0.0" y="45" width="94" height="30"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="H3u-2t-YTc">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pinRed" translatesAutoresizingMaskIntoConstraints="NO" id="H3u-2t-YTc">
                                                             <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                                             <color key="backgroundColor" red="0.51405602689999996" green="0.80995935200000002" blue="0.95208996530000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
@@ -243,9 +243,8 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="46" translatesAutoresizingMaskIntoConstraints="NO" id="5D0-mu-5io" userLabel="SelectLocationStack View">
                                         <rect key="frame" x="8" y="174.5" width="398" height="50"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dqB-hT-tEZ">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pinRed" translatesAutoresizingMaskIntoConstraints="NO" id="dqB-hT-tEZ">
                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                                <color key="backgroundColor" red="0.51405602689999996" green="0.80995935200000002" blue="0.95208996530000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="O1h-Kz-3lP"/>
                                                     <constraint firstAttribute="width" constant="50" id="iSc-Mg-1Et"/>
@@ -334,6 +333,9 @@
             <point key="canvasLocation" x="1060.8695652173915" y="134.59821428571428"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="pinRed" width="60" height="60"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="jSQ-Fz-SoY"/>
     </inferredMetricsTieBreakers>

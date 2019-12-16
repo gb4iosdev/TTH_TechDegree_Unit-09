@@ -82,6 +82,7 @@ class ReminderEditController: UIViewController {
             print("Setting Location to: \(location) for address: \(address)")
             reminder.recurring = recurringSegmentedControl.selectedSegmentIndex == 0 ? true : false
             reminder.arriving = arriving
+            reminder.isActive = true
             CoreDataStack.shared.managedObjectContext.saveChanges()
             print("retrieved reminder is: \(String(describing: context.reminder(with: reminder.uuid)))")
             createGeoFenceForReminder(withID: reminder.uuid)

@@ -15,13 +15,14 @@ extension Reminder {
 
     @nonobjc public class func remindersFetchRequest() -> NSFetchRequest<Reminder> {
         let fetchRequest = NSFetchRequest<Reminder>(entityName: "Reminder")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Reminder.creationDate, ascending: false)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Reminder.isActive, ascending: false), NSSortDescriptor(keyPath: \Reminder.creationDate, ascending: false)]
         return fetchRequest
     }
 
     @NSManaged public var title: String
     @NSManaged public var detail: String?
     @NSManaged public var arriving: Bool
+    @NSManaged public var isActive: Bool
     @NSManaged public var recurring: Bool
     @NSManaged public var address: String
     @NSManaged public var uuid: UUID
