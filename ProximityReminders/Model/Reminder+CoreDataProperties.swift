@@ -31,3 +31,5 @@ extension Reminder {
     @NSManaged public var location: Location
 
 }
+
+//We will strive to ensure that pricing information is presented clearly

@@ -12,6 +12,7 @@ class ReminderCell: UITableViewCell {
     
     @IBOutlet weak var reminderTitleLabel: UILabel!
     @IBOutlet weak var reminderAddressLabel: UILabel!
+    @IBOutlet weak var isActiveSwitch: UISwitch!
     
 
     override func awakeFromNib() {
@@ -28,6 +29,7 @@ class ReminderCell: UITableViewCell {
     func configure(using reminder: Reminder) {
         self.reminderTitleLabel?.text = reminder.title
         self.reminderAddressLabel?.text = reminder.address
+        self.isActiveSwitch.setOn(reminder.isActive, animated: true)
     }
 
 }

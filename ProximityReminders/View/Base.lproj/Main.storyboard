@@ -127,20 +127,20 @@
         <scene sceneID="9wY-xE-QBl">
             <objects>
                 <tableViewController id="4hk-NE-KHY" customClass="ReminderListController" customModule="ProximityReminders" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" estimatedRowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" id="ky0-33-5ch">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="100" estimatedRowHeight="100" sectionHeaderHeight="18" sectionFooterHeight="18" id="ky0-33-5ch">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReminderCell" rowHeight="100" id="YU9-JW-loP" customClass="ReminderCell" customModule="ProximityReminders" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="100"/>
+                                <rect key="frame" x="0.0" y="55.5" width="414" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YU9-JW-loP" id="a5y-DZ-Pmq">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="99.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="NN9-MJ-Tbl" userLabel="Labels Stack View">
-                                            <rect key="frame" x="16" y="12.5" width="348" height="75"/>
+                                            <rect key="frame" x="16" y="12.5" width="298" height="75"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Egj-qo-vg8">
                                                     <rect key="frame" x="0.0" y="0.0" width="85" height="43"/>
@@ -169,15 +169,23 @@
                                                 </stackView>
                                             </subviews>
                                         </stackView>
+                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="89v-yL-EOC">
+                                            <rect key="frame" x="357" y="34.5" width="51" height="31"/>
+                                        </switch>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="89v-yL-EOC" firstAttribute="centerY" secondItem="a5y-DZ-Pmq" secondAttribute="centerY" id="2UW-bN-yuk"/>
+                                        <constraint firstAttribute="trailing" secondItem="89v-yL-EOC" secondAttribute="trailing" constant="8" id="D2u-bQ-UMw"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.51405602689999996" green="0.80995935200000002" blue="0.95208996530000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="NN9-MJ-Tbl" firstAttribute="centerY" secondItem="YU9-JW-loP" secondAttribute="centerY" id="15y-wm-110"/>
-                                    <constraint firstAttribute="trailing" secondItem="NN9-MJ-Tbl" secondAttribute="trailing" constant="50" id="2xC-xc-D9z"/>
+                                    <constraint firstAttribute="trailing" secondItem="NN9-MJ-Tbl" secondAttribute="trailing" constant="100" id="2xC-xc-D9z"/>
                                     <constraint firstItem="NN9-MJ-Tbl" firstAttribute="leading" secondItem="YU9-JW-loP" secondAttribute="leading" constant="16" id="j0E-8N-D5G"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="isActiveSwitch" destination="89v-yL-EOC" id="P8y-Us-3lt"/>
                                     <outlet property="reminderAddressLabel" destination="Rd4-UD-Kgo" id="Efn-9N-L59"/>
                                     <outlet property="reminderTitleLabel" destination="Egj-qo-vg8" id="xP5-0E-JVt"/>
                                     <segue destination="Z2q-bi-2I6" kind="show" identifier="EditReminder" id="jSQ-Fz-SoY"/>

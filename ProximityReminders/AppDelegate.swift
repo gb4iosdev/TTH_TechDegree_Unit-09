@@ -130,40 +130,29 @@ extension AppDelegate: CLLocationManagerDelegate {
         //Remove the region if this is not a recurring reminder and set it's flag to non-active
         if !reminder.recurring {
             manager.stopMonitoring(for: region)
+            reminder.isActive = false
+            print("Region entry associated with reminder: \(reminder.title) no longer monitored")
         }
         
-        print("Region entry associated with reminder: \(reminder.title) no longer monitored")
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         print("location manager did Exit region in App delegate")
-        // customize your notification content
+        //Use the region identifier to retrieve the Reminder object:
         
-        let content = UNMutableNotificationContent()
-        content.title = "Exiting Region"
-        content.body = "Well-crafted body message"
-        content.sound = UNNotificationSound.default
+        guard let reminderUUID = UUID(uuidString: region.identifier), let reminder = context.reminder(with: reminderUUID) else { return }
         
-        // notification unique identifier, for this example, same as the region to avoid duplicate notifications
-        let identifier = region.identifier
+        //Create and execute the notification based on Reminder
+        self.notificationCenter?.notifyUsingReminder(reminder)
         
-        // the notification request object
-        let request = UNNotificationRequest(identifier: identifier,
-                                            content: content,
-                                            trigger: nil)
-        
-        // trying to add the notification request to notification center
-        notificationCenter?.add(request, withCompletionHandler: { (error) in
-            if error != nil {
-                print("Error adding notification with identifier: \(identifier)")
-            }
-        })
-        print("location manager did exit region while app was not running")
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let window = appDelegate.window else { return }
-        
-        
-        //Call the presentAlert method from your UIWindow extension
-        window.presentAlert(with: "Location manager did exit region in the app delegate", message: nil)
+        //Remove the region if this is not a recurring reminder and set it's flag to non-active
+        if !reminder.recurring {
+            manager.stopMonitoring(for: region)
+            reminder.isActive = false
+            print("Region exit associated with reminder: \(reminder.title) no longer monitored")
+            
+        }
     }
 }
 

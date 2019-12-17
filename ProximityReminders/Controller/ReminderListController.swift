@@ -16,9 +16,14 @@ class ReminderListController: UITableViewController {
     private let context = CoreDataStack.shared.managedObjectContext
     private let locationManager = CLLocationManager()
     
+    
+    
     //MARK: - NSFetchedResultsController
-    private let remindersFetchedResultsController = NSFetchedResultsController(fetchRequest: Reminder.remindersFetchRequest(), managedObjectContext: CoreDataStack.shared.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+    private let remindersFetchedResultsController = NSFetchedResultsController(fetchRequest: Reminder.remindersFetchRequest(), managedObjectContext: CoreDataStack.shared.managedObjectContext, sectionNameKeyPath: "isActive", cacheName: nil)
+    //private let remindersFetchedResultsController = NSFetchedResultsController(fetchRequest: Reminder.remindersFetchRequest(), managedObjectContext: CoreDataStack.shared.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
 
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,7 +40,6 @@ class ReminderListController: UITableViewController {
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
-        //locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
         print("Number of Regions monitored is: \(locationManager.monitoredRegions.count)")
     }
@@ -45,7 +49,8 @@ class ReminderListController: UITableViewController {
 extension ReminderListController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         // return the number of sections
-        return 1
+        print("Number of sections is: \(remindersFetchedResultsController.sections?.count)")
+        return remindersFetchedResultsController.sections?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -60,6 +65,13 @@ extension ReminderListController {
         cell.configure(using: reminder)
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+            case 0: return "Active"
+            default: return "inActive"
+        }
     }
     
     //Allow swipe to delete on the tableView rows
