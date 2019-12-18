@@ -81,12 +81,13 @@ class ReminderEditController: UIViewController {
             reminder.address = address
             print("Setting Location to: \(location) for address: \(address)")
             reminder.recurring = recurringSegmentedControl.selectedSegmentIndex == 0 ? true : false
+            print("Saving existing Reminder with recurring = \(reminder.recurring)")
             reminder.arriving = arriving
             reminder.isActive = true
             CoreDataStack.shared.managedObjectContext.saveChanges()
             print("retrieved reminder is: \(String(describing: context.reminder(with: reminder.uuid)))")
             createGeoFenceForReminder(withID: reminder.uuid)
-        } else {
+        } else {    //Creating a new reminder
             do {
                 let reminderUUID = UUID()
                 let arriving = self.arriving ?? true
@@ -144,8 +145,8 @@ extension ReminderEditController {
         
         //Create new geofence region
         let region = CLCircularRegion(center: reminder.location.asCLLocationCoordinate2D(), radius: self.mapRegionRadius, identifier: reminder.uuid.uuidString)
-        region.notifyOnEntry = true
-        region.notifyOnExit = true
+        region.notifyOnEntry = reminder.arriving
+        region.notifyOnExit = !reminder.arriving
         self.locationManager.startMonitoring(for: region)
         print("Now monitoring: \(region)")
     }

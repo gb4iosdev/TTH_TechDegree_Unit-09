@@ -17,29 +17,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     private let context = CoreDataStack.shared.managedObjectContext
+    
+    //The location manager object does not have to be a singleton.  Each instance will have access to the same central Location Manager.
     private let locationManager = CLLocationManager()
-    private var notificationCenter: UNUserNotificationCenter?
+    // assign the current notification centre singleton
+    private var notificationCenter = UNUserNotificationCenter.current()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        self.locationManager.delegate = self
+        // Set the locationManagers’s delegate to this AppDelegate class.
+        locationManager.delegate = self
+        locationManager.startUpdatingLocation()
+        print("Number of Regions monitored is: \(locationManager.monitoredRegions.count)")
         
-        print("AppDelegate set as locationManager's delegate")
-        // get the singleton object
-        self.notificationCenter = UNUserNotificationCenter.current()
+        // register the Notification Centre's delegate
+        notificationCenter.delegate = self
         
-        // register as it's delegate
-        notificationCenter?.delegate = self
-        
-        // define what do you need permission to use
-        let options: UNAuthorizationOptions = [.alert, .sound]
-        
-        // request permission
-        notificationCenter?.requestAuthorization(options: options) { (granted, error) in
-            if !granted {
-                print("Permission not granted")
-            }
-        }
+        configureNotificationCentre()
         
         return true
     }
@@ -65,52 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        self.saveContext()
-    }
-
-    // MARK: - Core Data stack
-
-    lazy var persistentContainer: NSPersistentContainer = {
-        /*
-         The persistent container for the application. This implementation
-         creates and returns a container, having loaded the store for the
-         application to it. This property is optional since there are legitimate
-         error conditions that could cause the creation of the store to fail.
-        */
-        let container = NSPersistentContainer(name: "ProximityReminders")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                 
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        })
-        return container
-    }()
-
-    // MARK: - Core Data Saving support
-
-    func saveContext () {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }
+        context.saveChanges()
     }
 
 }
@@ -121,17 +69,20 @@ extension AppDelegate: CLLocationManagerDelegate {
         print("location manager did Enter region in App delegate")
         
         //Use the region identifier to retrieve the Reminder object:
-        
         guard let reminderUUID = UUID(uuidString: region.identifier), let reminder = context.reminder(with: reminderUUID) else { return }
+        //Check if the reminder if for entering
+        guard reminder.arriving else { return }
         
         //Create and execute the notification based on Reminder
-        self.notificationCenter?.notifyUsingReminder(reminder)
+        self.notificationCenter.notifyUsingReminder(reminder)
+
         
         //Remove the region if this is not a recurring reminder and set it's flag to non-active
         if !reminder.recurring {
             manager.stopMonitoring(for: region)
             reminder.isActive = false
-            print("Region entry associated with reminder: \(reminder.title) no longer monitored")
+            print("Region entry associated with reminder: \(reminder.title) no longer active")
+            context.saveChanges()
         }
         
         
@@ -139,19 +90,21 @@ extension AppDelegate: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         print("location manager did Exit region in App delegate")
-        //Use the region identifier to retrieve the Reminder object:
         
+        //Use the region identifier to retrieve the Reminder object:
         guard let reminderUUID = UUID(uuidString: region.identifier), let reminder = context.reminder(with: reminderUUID) else { return }
+        //Check if the reminder if for exiting
+        guard !reminder.arriving else { return }
         
         //Create and execute the notification based on Reminder
-        self.notificationCenter?.notifyUsingReminder(reminder)
+        self.notificationCenter.notifyUsingReminder(reminder)
         
         //Remove the region if this is not a recurring reminder and set it's flag to non-active
         if !reminder.recurring {
             manager.stopMonitoring(for: region)
             reminder.isActive = false
-            print("Region exit associated with reminder: \(reminder.title) no longer monitored")
-            
+            context.saveChanges()
+            print("Region exit associated with reminder: \(reminder.title) no longer active")
         }
     }
 }
@@ -165,7 +118,19 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         completionHandler(.alert)
     }
     
-    
+    func configureNotificationCentre() {
+        
+        // set options for authorization request
+        let options: UNAuthorizationOptions = [.alert, .sound]
+        
+        // request permission
+        notificationCenter.requestAuthorization(options: options) { (granted, error) in
+            if let error = error {
+                print("Error requesting notification authorization: \(error.localizedDescription)")
+            }
+            self.locationManager.requestAlwaysAuthorization()
+        }
+    }
     
 }
 

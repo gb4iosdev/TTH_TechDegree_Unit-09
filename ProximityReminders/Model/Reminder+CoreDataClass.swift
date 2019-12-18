@@ -34,6 +34,7 @@ public class Reminder: NSManagedObject {
         reminder.detail = detail
         reminder.creationDate = creationDate
         reminder.recurring = recurring
+        print("Saving new Reminder with recurring = \(reminder.recurring)")
         reminder.uuid = uuid
         reminder.arriving = arriving
         reminder.isActive = isActive

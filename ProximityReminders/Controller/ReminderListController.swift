@@ -14,7 +14,7 @@ import CoreLocation
 class ReminderListController: UITableViewController {
     
     private let context = CoreDataStack.shared.managedObjectContext
-    private let locationManager = CLLocationManager()
+    //private let locationManager = CLLocationManager()
     
     
     
@@ -37,11 +37,11 @@ class ReminderListController: UITableViewController {
             presentAlert(withTitle: "Error:", message: error.localizedDescription)
         }
         
-        locationManager.delegate = self
-        locationManager.requestAlwaysAuthorization()
-        locationManager.startUpdatingLocation()
+//        locationManager.delegate = self
+//        locationManager.requestAlwaysAuthorization()
+//        locationManager.startUpdatingLocation()
         
-        print("Number of Regions monitored is: \(locationManager.monitoredRegions.count)")
+        //print("Number of Regions monitored is: \(locationManager.monitoredRegions.count)")
     }
 }
 
@@ -104,23 +104,23 @@ extension ReminderListController: NSFetchedResultsControllerDelegate {
     }
 }
 
-//  MARK: - Location Manager Delegate methods
-extension ReminderListController: CLLocationManagerDelegate {
-    
-    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        print("Entering Region: \(region)")
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        print("Exiting Region: \(region)")
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        print("User current location is: \(location)")
-    }
-    
-}
+////  MARK: - Location Manager Delegate methods
+//extension ReminderListController: CLLocationManagerDelegate {
+//    
+//    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+//        print("Entering Region: \(region)")
+//    }
+//    
+//    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+//        print("Exiting Region: \(region)")
+//    }
+//    
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        guard let location = locations.last else { return }
+//        print("User current location is: \(location)")
+//    }
+//    
+//}
 
 //MARK: - Segues
 
