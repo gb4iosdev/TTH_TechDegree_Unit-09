@@ -8,7 +8,7 @@
 
 import UIKit
 
-//I added this extension here too. I like having a way of creating an alert in the view controller I'm in much more than creating a separate window each time I need to show an alert.
+//Create an alert in the view controller.
 extension UIViewController {
     func presentAlert(withTitle title: String?, message: String?, handler: ((UIAlertAction) -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

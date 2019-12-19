@@ -16,23 +16,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
+    //Persistence:
     private let context = CoreDataStack.shared.managedObjectContext
     
-    //The location manager object does not have to be a singleton.  Each instance will have access to the same central Location Manager.
+    //The location manager object does not have to be a singleton.  Instances in other classes will have access to the same central Location Manager.
     private let locationManager = CLLocationManager()
     // assign the current notification centre singleton
     private var notificationCenter = UNUserNotificationCenter.current()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Set the locationManagers’s delegate to this AppDelegate class.
+        
+        // register the Notification Centre's delegate, authorize for notifications & set notification options (location manager authorization done here also)
+        notificationCenter.delegate = self
+        configureNotificationCentre()
+        
+        // Set the locationManagers’s delegate to this AppDelegate class & start monitoring.
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
-        print("Number of Regions monitored is: \(locationManager.monitoredRegions.count)")
-        
-        // register the Notification Centre's delegate
-        notificationCenter.delegate = self
-        
-        configureNotificationCentre()
         
         return true
     }
@@ -63,58 +63,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
-//Region Monitoring Delegate methods:
+//MARK: - Region Monitoring delegate and helper methods:
 extension AppDelegate: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        print("location manager did Enter region in App delegate")
         
         //Use the region identifier to retrieve the Reminder object:
         guard let reminderUUID = UUID(uuidString: region.identifier), let reminder = context.reminder(with: reminderUUID) else { return }
-        //Check if the reminder if for entering
+        
+        //Check if the reminder is for entering
         guard reminder.arriving else { return }
         
-        //Create and execute the notification based on Reminder
-        self.notificationCenter.notifyUsingReminder(reminder)
-
-        
-        //Remove the region if this is not a recurring reminder and set it's flag to non-active
-        if !reminder.recurring {
-            manager.stopMonitoring(for: region)
-            reminder.isActive = false
-            print("Region entry associated with reminder: \(reminder.title) no longer active")
-            context.saveChanges()
-        }
-        
-        
+        //Fire the notification set reminder to inactive if required
+        executeNotification(for: reminder, in: region, manager: manager)
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        print("location manager did Exit region in App delegate")
-        
+
         //Use the region identifier to retrieve the Reminder object:
         guard let reminderUUID = UUID(uuidString: region.identifier), let reminder = context.reminder(with: reminderUUID) else { return }
-        //Check if the reminder if for exiting
+        
+        //Check if the reminder is for exiting
         guard !reminder.arriving else { return }
+        
+        //Fire the notification set reminder to inactive if required
+        executeNotification(for: reminder, in: region, manager: manager)
+    }
+    
+    func executeNotification(for reminder: Reminder, in region: CLRegion, manager: CLLocationManager) {
         
         //Create and execute the notification based on Reminder
         self.notificationCenter.notifyUsingReminder(reminder)
         
-        //Remove the region if this is not a recurring reminder and set it's flag to non-active
+        //Remove the region monitoring if this is not a recurring reminder and set it's flag to non-active
         if !reminder.recurring {
             manager.stopMonitoring(for: region)
             reminder.isActive = false
             context.saveChanges()
-            print("Region exit associated with reminder: \(reminder.title) no longer active")
         }
     }
 }
 
-//Notification delegate and helper methods
+//MARK: - Notification delegate and helper methods
 extension AppDelegate: UNUserNotificationCenterDelegate {
     
-    //Makes notification appear even if the app is in the foreground.  May want to disable this in preference for alerts.
+    //Makes notification appear even if the app is in the foreground.
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // when app is onpen and in foregroud
         completionHandler(.alert)
     }
     
@@ -123,7 +116,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // set options for authorization request
         let options: UNAuthorizationOptions = [.alert, .sound]
         
-        // request permission
+        // request permission - location manager authorization also
         notificationCenter.requestAuthorization(options: options) { (granted, error) in
             if let error = error {
                 print("Error requesting notification authorization: \(error.localizedDescription)")

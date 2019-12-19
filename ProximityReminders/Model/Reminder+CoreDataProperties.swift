@@ -32,4 +32,4 @@ extension Reminder {
 
 }
 
-//We will strive to ensure that pricing information is presented clearly
+

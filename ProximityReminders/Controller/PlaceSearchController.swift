@@ -13,17 +13,25 @@ class PlaceSearchController: UIViewController {
     
     weak var delegate: PlaceSearchControllerDelegate?
     
+    //Outlet variables
     @IBOutlet weak var placesTableView: UITableView!
     @IBOutlet weak var directionSegmentedControl: UISegmentedControl!
     @IBOutlet weak var mapView: MKMapView!
     
-    
+    //Datasource for search
     var filteredData: [MKMapItem] = []
+    
+    //Location related variables
     var chosenPlace: MKMapItem?
+    var defaultRegion: MKCoordinateRegion?
+    
+    //Search related variables
     let searchController = UISearchController(searchResultsController: nil)
     let searchRequest = MKLocalSearch.Request()
     
-    var defaultRegion: MKCoordinateRegion?
+    //Map constants
+    let mapSpan: Double = 400
+    let mapRegionRadius: Double = 50
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,10 +44,9 @@ class PlaceSearchController: UIViewController {
         configureUI()
         
         defaultRegion = mapView.region
-        
-        
     }
     
+    //If we have selected a place in the tableview, capture the corresponding MKMapItem and arriving/departing setting and save back to the delegate (ReminderEditController).  Otherwise alert the user to no location being set.
     @IBAction func saveLocationButtonPressed(_ sender: UIBarButtonItem) {
         if let chosenPlace = self.chosenPlace {
             let arriving = directionSegmentedControl.selectedSegmentIndex == 0
@@ -77,7 +84,7 @@ extension PlaceSearchController: UITableViewDelegate {
             chosenPlace = filteredData[indexPath.row]
             
             //Adjust the map to reflect the chosen place:
-            mapView.adjust(centreTo: coordinate, span: 400, regionRadius: 50)
+            mapView.adjust(centreTo: coordinate, span: mapSpan, regionRadius: mapRegionRadius)
         }
     }
 }
@@ -96,6 +103,7 @@ extension PlaceSearchController: UISearchResultsUpdating, UISearchBarDelegate {
             
             search.start { response, error in
                 if let response = response {
+                    //If we have a valid response, extract the MKMapItems, and execute tableview reload on main queue.
                     self.filteredData = response.mapItems
                     DispatchQueue.main.async {
                         self.placesTableView.reloadData()
@@ -117,6 +125,7 @@ extension PlaceSearchController: UISearchResultsUpdating, UISearchBarDelegate {
 
 //  MARK: - Map Delegate methods
 extension PlaceSearchController: MKMapViewDelegate {
+    //Required to draw on the map
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         return mapView.renderer(for: overlay)
     }
@@ -139,7 +148,6 @@ extension PlaceSearchController {
     
     //Basic UI Setup for this view controller
     func configureUI() {
-        //self.navigationController?.navigationBar.topItem?.title = "Cancel"
         self.navigationItem.rightBarButtonItem?.title = "Save Location"
     }
 }

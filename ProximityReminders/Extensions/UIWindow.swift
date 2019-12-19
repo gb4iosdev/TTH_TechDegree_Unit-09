@@ -8,7 +8,7 @@
 
 import UIKit
 
-//Create an extension on UIWindow so that you just call the presentAlert method when required.
+//Creates an extension on UIWindow so that an alert can be presented when no view controller is present.
 extension UIWindow {
     var alertWindow: UIWindow {
         let window = UIWindow(frame: UIScreen.main.bounds)

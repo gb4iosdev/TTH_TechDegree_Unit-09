@@ -8,6 +8,7 @@
 
 import MapKit
 
+//Protocol to allow the PlaceSearchController to communicate it's saved information to other controllers.
 protocol PlaceSearchControllerDelegate: class {
     func placeSearchController(_ placeSearchController: PlaceSearchController, didFinishSelectingItems mapItem: MKMapItem, arriving: Bool)
 }

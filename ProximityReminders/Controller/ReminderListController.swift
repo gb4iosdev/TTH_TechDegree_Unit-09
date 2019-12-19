@@ -13,16 +13,14 @@ import CoreLocation
 
 class ReminderListController: UITableViewController {
     
+    //Persistence:
     private let context = CoreDataStack.shared.managedObjectContext
-    //private let locationManager = CLLocationManager()
     
+    //For region deletion when reminder is deleted:
+    private let locationManager = CLLocationManager()
     
-    
-    //MARK: - NSFetchedResultsController
-    private let remindersFetchedResultsController = NSFetchedResultsController(fetchRequest: Reminder.remindersFetchRequest(), managedObjectContext: CoreDataStack.shared.managedObjectContext, sectionNameKeyPath: "isActive", cacheName: nil)
-    //private let remindersFetchedResultsController = NSFetchedResultsController(fetchRequest: Reminder.remindersFetchRequest(), managedObjectContext: CoreDataStack.shared.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-
-    
+    //FetchedResultsController
+    private let remindersFetchedResultsController = NSFetchedResultsController(fetchRequest: Reminder.remindersFetchRequest(), managedObjectContext: CoreDataStack.shared.managedObjectContext, sectionNameKeyPath: #keyPath(Reminder.isActive), cacheName: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,17 +29,12 @@ class ReminderListController: UITableViewController {
         
         remindersFetchedResultsController.delegate = self
         
+        //Load the fetched results controller
         do {
             try remindersFetchedResultsController.performFetch()
         } catch {
             presentAlert(withTitle: "Error:", message: error.localizedDescription)
         }
-        
-//        locationManager.delegate = self
-//        locationManager.requestAlwaysAuthorization()
-//        locationManager.startUpdatingLocation()
-        
-        //print("Number of Regions monitored is: \(locationManager.monitoredRegions.count)")
     }
 }
 
@@ -49,7 +42,6 @@ class ReminderListController: UITableViewController {
 extension ReminderListController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         // return the number of sections
-        print("Number of sections is: \(remindersFetchedResultsController.sections?.count)")
         return remindersFetchedResultsController.sections?.count ?? 0
     }
     
@@ -62,11 +54,14 @@ extension ReminderListController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ReminderCell", for: indexPath) as? ReminderCell else { return UITableViewCell() }
         
         let reminder = remindersFetchedResultsController.object(at: indexPath)
+        
+        //Configuration defined in ReminderCell class:
         cell.configure(using: reminder)
         
         return cell
     }
     
+    //Segregate active and inactive reminders
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
             case 0: return "Active"
@@ -75,7 +70,6 @@ extension ReminderListController {
     }
     
     //Allow swipe to delete on the tableView rows
-    
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
     }
@@ -83,6 +77,12 @@ extension ReminderListController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let reminder = remindersFetchedResultsController.object(at: indexPath)
+            //Delete this reminder's region before deleting the reminder
+            for region in locationManager.monitoredRegions {
+                if region.identifier == reminder.uuid.uuidString {
+                    locationManager.stopMonitoring(for: region)
+                }
+            }
             context.delete(reminder)
             context.saveChanges()
         }
@@ -103,6 +103,7 @@ extension ReminderListController: NSFetchedResultsControllerDelegate {
         tableView.endUpdates()
     }
     
+    //Allows sections to respond to changes in data
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         let indexSet = IndexSet(integer: sectionIndex)
         switch type {
@@ -113,34 +114,17 @@ extension ReminderListController: NSFetchedResultsControllerDelegate {
     }
 }
 
-////  MARK: - Location Manager Delegate methods
-//extension ReminderListController: CLLocationManagerDelegate {
-//    
-//    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-//        print("Entering Region: \(region)")
-//    }
-//    
-//    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-//        print("Exiting Region: \(region)")
-//    }
-//    
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        guard let location = locations.last else { return }
-//        print("User current location is: \(location)")
-//    }
-//    
-//}
-
 //MARK: - Segues
 
 extension ReminderListController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        //Should only be segueing to the edit VC here.
+        //Should only be segueing to the edit ViewController here.
         guard let editViewController = segue.destination as? ReminderEditController else { return }
         
-        if segue.identifier == "EditReminder", let selectedRow = self.tableView.indexPathForSelectedRow {   //Need to set the reminder
+        if segue.identifier == "EditReminder", let selectedRow = self.tableView.indexPathForSelectedRow {
+            //if we have a selected row, set the reminder for the edit view controller
             let reminder = remindersFetchedResultsController.object(at: selectedRow)
             editViewController.reminder = reminder
         }

@@ -12,9 +12,10 @@ import CoreData
 
 class ReminderEditController: UIViewController {
     
+    //Persistence:
     private let context = CoreDataStack.shared.managedObjectContext
     
-    //IBOutle variables
+    //IBOutlet variables
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var detailTextField: UITextView!
     @IBOutlet weak var locationLabel: UILabel!
@@ -23,6 +24,7 @@ class ReminderEditController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     
+    //Key variable for the class:
     var reminder: Reminder?
     
     //Temporary variables used to create a Reminder if save is selected
@@ -40,25 +42,27 @@ class ReminderEditController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //Set context to main context and Load the UI if we have a reminder set
+        //Load the class & UI if we have a reminder set
         if let reminder = self.reminder {
             load(from: reminder)
         }
         
+        //Let this view controller respond to map view delegate calls
         mapView.delegate = self
 
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        //If we have a location, center the map and draw a circle
         if let location = self.location {
             let coordinate = location.asCLLocationCoordinate2D()
-            print("Just about to adjust the map view - should draw a circle")
             mapView.adjust(centreTo: coordinate, span: mapSpan, regionRadius: mapRegionRadius)
         }
     }
     
     @IBAction func savePressed(_ sender: UIBarButtonItem) {
+        //If we have a reminder, and from the UI we have title, detail and location populated:
         if let reminder = reminder {
             guard let title = titleTextField.text, !title.isEmpty else {
                 presentAlert(withTitle: "Please enter a title for the Reminder", message: nil)
@@ -75,46 +79,45 @@ class ReminderEditController: UIViewController {
                 return
             }
             
+            //Assign to reminder properties, save & create the geoFence region:
             reminder.title = title
             reminder.detail = detailText
             reminder.location = location
             reminder.address = address
-            print("Setting Location to: \(location) for address: \(address)")
             reminder.recurring = recurringSegmentedControl.selectedSegmentIndex == 0 ? true : false
-            print("Saving existing Reminder with recurring = \(reminder.recurring)")
             reminder.arriving = arriving
             reminder.isActive = true
             CoreDataStack.shared.managedObjectContext.saveChanges()
-            print("retrieved reminder is: \(String(describing: context.reminder(with: reminder.uuid)))")
             createGeoFenceForReminder(withID: reminder.uuid)
-        } else {    //Creating a new reminder
+            
+        } else {    //We are creating a new reminder, saving & creating a geofence
             do {
                 let reminderUUID = UUID()
                 let arriving = self.arriving ?? true
                 try Reminder.save(with: titleTextField.text, address: address, detail: detailTextField.text, recurring: recurringSegmentedControl.selectedSegmentIndex == 0 ? true : false, uuid: reminderUUID, arriving: arriving, location: location)
-                print("retrieved reminder is: \(String(describing: context.reminder(with: reminderUUID)))")
                 createGeoFenceForReminder(withID: reminderUUID)
             } catch {
                 presentAlert(withTitle: "Error", message: error.localizedDescription)
             }
         }
         
+        //Return to reminderListController
         navigationController?.popToRootViewController(animated: true)
     }
 }
 
 //MARK: - PlaceSearchControllerDelegate method:
 extension ReminderEditController: PlaceSearchControllerDelegate {
+    
     func placeSearchController(_ placeSearchController: PlaceSearchController, didFinishSelectingItems mapItem: MKMapItem, arriving: Bool) {
+        //If a co-ordinate is available in the MKMapItem for the selected location, create the location, adjust the map view and set other reminder properties.
         if let location2D = mapItem.placemark.location?.coordinate {
-            print("Saving items from PlaceSearchController now")
             self.location = Location.fromCLLocationCoordinate2D(coordinate2d: location2D)
             mapView.adjust(centreTo: location2D, span: self.mapSpan, regionRadius: self.mapRegionRadius)
         }
         
         self.address = mapItem.address
         locationLabel.text = mapItem.address
-        
         self.arriving = arriving
     }
 }
@@ -122,23 +125,21 @@ extension ReminderEditController: PlaceSearchControllerDelegate {
 //MARK: - Helper Methods:
 
 extension ReminderEditController {
+    
     func load(from reminder: Reminder) {
-        //Populate the UI fields from the reminder object.
+        //Populate variables from the reminder object.
         location = reminder.location
         address = reminder.address
         arriving = reminder.arriving
         
+        //Populate UI fields from the reminder object.
         titleTextField.text = reminder.title
         detailTextField.text = reminder.detail
         locationLabel.text = reminder.address
         recurringSegmentedControl.selectedSegmentIndex = reminder.recurring ? 0 : 1
-        
-        
     }
     
     func createGeoFenceForReminder(withID reminderID: UUID) {
-        
-        //Disable any geofences currently active with this ID
         
         //Load the reminder
         guard let reminder = context.reminder(with: reminderID) else { return }
@@ -148,12 +149,12 @@ extension ReminderEditController {
         region.notifyOnEntry = reminder.arriving
         region.notifyOnExit = !reminder.arriving
         self.locationManager.startMonitoring(for: region)
-        print("Now monitoring: \(region)")
     }
 }
 
 //  MARK: - Map Delegate methods
 extension ReminderEditController: MKMapViewDelegate {
+    //Required to draw on the map
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         return mapView.renderer(for: overlay)
     }
@@ -163,7 +164,7 @@ extension ReminderEditController: MKMapViewDelegate {
 
 extension ReminderEditController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //Set the delegate to allow for saving
+        //Set the delegate to allow for saving of the location
         if segue.identifier == "ShowSearch", let searchController = segue.destination as? PlaceSearchController {
             searchController.delegate = self
             let backItem = UIBarButtonItem()

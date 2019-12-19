@@ -17,6 +17,7 @@ extension MKMapView {
         self.setRegion(region, animated: true)
     }
     
+    //Centre the map around a coordinate, set it's span and draw the monitoring region circle
     func adjust(centreTo centre: CLLocationCoordinate2D, span: Double, regionRadius: Double) {
         
         self.setRegion(around: centre, withSpan: span)
@@ -29,6 +30,7 @@ extension MKMapView {
         self.addOverlay(circle)
     }
     
+    //Circle visual characteristics
     func renderer(for overlay: MKOverlay) -> MKOverlayRenderer {
         if let circleOverlay = overlay as? MKCircle {
             let circleRenderer = MKCircleRenderer(overlay: circleOverlay)

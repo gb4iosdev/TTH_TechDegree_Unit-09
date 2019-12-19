@@ -23,6 +23,7 @@ public class Reminder: NSManagedObject {
         }
     }
     
+    //Creates a new Reminder object and saves to the managed object context
     static func save(with title: String?, address: String?, detail: String?, creationDate: Date = Date(), recurring: Bool = false, uuid: UUID, arriving: Bool, location: Location? = nil, isActive: Bool = true) throws {
         guard let title = title, !title.isEmpty else { throw Error.titleMissing }
         guard let address = address, !address.isEmpty else { throw Error.addressMissing }
@@ -34,7 +35,6 @@ public class Reminder: NSManagedObject {
         reminder.detail = detail
         reminder.creationDate = creationDate
         reminder.recurring = recurring
-        print("Saving new Reminder with recurring = \(reminder.recurring)")
         reminder.uuid = uuid
         reminder.arriving = arriving
         reminder.isActive = isActive
