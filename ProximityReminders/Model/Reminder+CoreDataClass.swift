@@ -7,8 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import UIKit
 
 public class Reminder: NSManagedObject {
     enum Error: LocalizedError {
@@ -21,6 +21,13 @@ public class Reminder: NSManagedObject {
             case .detailMissing: return "Please provide details for the reminder"
             }
         }
+    }
+    
+    public class func remindersFetchRequest() -> NSFetchRequest<Reminder> {
+        
+        let fetchRequest: NSFetchRequest<Reminder> = self.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Reminder.isActive, ascending: false), NSSortDescriptor(keyPath: \Reminder.creationDate, ascending: false)]
+        return fetchRequest
     }
     
     //Creates a new Reminder object and saves to the managed object context
@@ -44,5 +51,27 @@ public class Reminder: NSManagedObject {
         }
         
         CoreDataStack.shared.managedObjectContext.saveChanges()
+    }
+    
+    //Returns a reminder with the specified UUID from the context if found, else nil
+    static func with(uuid: UUID) -> Reminder? {
+        
+        let reminderFetchRequest: NSFetchRequest<Reminder> = self.fetchRequest()
+        reminderFetchRequest.predicate = NSPredicate(format: "uuid = %@", uuid.uuidString)
+        
+        do {
+            let reminder = try CoreDataStack.shared.managedObjectContext.fetch(reminderFetchRequest)
+            if !reminder.isEmpty {
+                return reminder.first
+            } else {
+                return nil
+            }
+        } catch {
+            // Present a modal alert to advise that retrieval was not succesful.
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let window = appDelegate.window else { return nil}
+            
+            window.presentAlert(with: "Error", message: error.localizedDescription)
+            return nil
+        }
     }
 }

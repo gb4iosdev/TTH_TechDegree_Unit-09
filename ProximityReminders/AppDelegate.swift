@@ -68,7 +68,7 @@ extension AppDelegate: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         
         //Use the region identifier to retrieve the Reminder object:
-        guard let reminderUUID = UUID(uuidString: region.identifier), let reminder = context.reminder(with: reminderUUID) else { return }
+        guard let reminderUUID = UUID(uuidString: region.identifier), let reminder = Reminder.with(uuid: reminderUUID) else { return }
         
         //Check if the reminder is for entering
         guard reminder.arriving else { return }
@@ -80,7 +80,7 @@ extension AppDelegate: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
 
         //Use the region identifier to retrieve the Reminder object:
-        guard let reminderUUID = UUID(uuidString: region.identifier), let reminder = context.reminder(with: reminderUUID) else { return }
+        guard let reminderUUID = UUID(uuidString: region.identifier), let reminder = Reminder.with(uuid: reminderUUID) else { return }
         
         //Check if the reminder is for exiting
         guard !reminder.arriving else { return }

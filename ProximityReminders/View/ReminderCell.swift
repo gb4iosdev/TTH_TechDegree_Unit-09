@@ -13,21 +13,8 @@ class ReminderCell: UITableViewCell {
     @IBOutlet weak var reminderTitleLabel: UILabel!
     @IBOutlet weak var reminderAddressLabel: UILabel!
     
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
     func configure(using reminder: Reminder) {
         self.reminderTitleLabel?.text = reminder.title
         self.reminderAddressLabel?.text = reminder.address
     }
-
 }

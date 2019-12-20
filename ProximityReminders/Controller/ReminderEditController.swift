@@ -142,7 +142,7 @@ extension ReminderEditController {
     func createGeoFenceForReminder(withID reminderID: UUID) {
         
         //Load the reminder
-        guard let reminder = context.reminder(with: reminderID) else { return }
+        guard let reminder = Reminder.with(uuid: reminderID) else { return }
         
         //Create new geofence region
         let region = CLCircularRegion(center: reminder.location.asCLLocationCoordinate2D(), radius: self.mapRegionRadius, identifier: reminder.uuid.uuidString)

@@ -13,10 +13,8 @@ import CoreData
 
 extension Reminder {
 
-    @nonobjc public class func remindersFetchRequest() -> NSFetchRequest<Reminder> {
-        let fetchRequest = NSFetchRequest<Reminder>(entityName: "Reminder")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Reminder.isActive, ascending: false), NSSortDescriptor(keyPath: \Reminder.creationDate, ascending: false)]
-        return fetchRequest
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Reminder> {
+        return NSFetchRequest<Reminder>(entityName: "Reminder")
     }
 
     @NSManaged public var title: String
