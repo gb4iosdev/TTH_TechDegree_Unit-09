@@ -18,7 +18,7 @@ extension Reminder {
     }
 
     @NSManaged public var title: String
-    @NSManaged public var detail: String?
+    @NSManaged public var detail: String
     @NSManaged public var arriving: Bool
     @NSManaged public var isActive: Bool
     @NSManaged public var recurring: Bool
