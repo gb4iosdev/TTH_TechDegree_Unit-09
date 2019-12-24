@@ -17,7 +17,7 @@ class ReminderEditController: UIViewController {
     
     //IBOutlet variables
     @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var detailTextField: UITextView!
+    @IBOutlet weak var detailTextView: ReminderTextView!
     @IBOutlet weak var locationLabel: UILabel!
     
     @IBOutlet weak var recurringSegmentedControl: UISegmentedControl!
@@ -46,16 +46,15 @@ class ReminderEditController: UIViewController {
         if let reminder = self.reminder {
             load(from: reminder)
         } else {
-            detailTextField.textColor = UIColor(displayP3Red: 102/255, green: 162/255, blue: 195/255, alpha: 1.0)
-            detailTextField.text = "Enter extra notes here"
+            detailTextView.setPlaceholder()
         }
         
         //Let this view controller respond to map view delegate calls
         mapView.delegate = self
         
         //Set the UITextView delegate and returnKey type.
-        detailTextField.delegate = self
-        detailTextField.returnKeyType = .done
+        detailTextView.delegate = self
+        detailTextView.returnKeyType = .done
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -75,7 +74,7 @@ class ReminderEditController: UIViewController {
                 return
             }
             
-            guard let detailText = detailTextField.text, !detailText.isEmpty, detailText != "Enter extra notes here" else {
+            guard let detailText = detailTextView.text, !detailText.isEmpty, detailTextView.placeholderRemoved else {
                 presentAlert(withTitle: "Please enter some details for the Reminder", message: nil)
                 return
             }
@@ -87,12 +86,7 @@ class ReminderEditController: UIViewController {
             
             //Assign to reminder properties, save & create the geoFence region:
             reminder.title = title
-            if detailText == "Enter extra notes here" {
-                reminder.detail = ""
-            } else {
-                reminder.detail = detailText
-            }
-            print("Detail Text is \(reminder.detail)")
+            reminder.detail = detailText
             reminder.location = location
             reminder.address = address
             reminder.recurring = recurringSegmentedControl.selectedSegmentIndex == 0 ? true : false
@@ -104,12 +98,7 @@ class ReminderEditController: UIViewController {
         } else {    //We are creating a new reminder, saving & creating a geofence
             do {
                 let reminderUUID = UUID()
-                var detailText: String
-                if detailTextField.text == "Enter extra notes here" {
-                    detailText = ""
-                } else {
-                    detailText = detailTextField.text
-                }
+                let detailText = detailTextView.placeholderRemoved ? detailTextView.text! : ""
                 let arriving = self.arriving ?? true
                 try Reminder.save(with: titleTextField.text, address: address, detail: detailText, recurring: recurringSegmentedControl.selectedSegmentIndex == 0 ? true : false, uuid: reminderUUID, arriving: arriving, location: location)
                 createGeoFenceForReminder(withID: reminderUUID)
@@ -152,13 +141,10 @@ extension ReminderEditController {
         //Populate UI fields from the reminder object.
         titleTextField.text = reminder.title
         if reminder.detail == "" {
-            detailTextField.text = "Enter extra notes here"
-            detailTextField.textColor = UIColor(displayP3Red: 102/255, green: 162/255, blue: 195/255, alpha: 1.0)
+            detailTextView.setPlaceholder() //Shouldn't be executed as reminders can't be saved without detail
         } else {
-            detailTextField.text = reminder.detail
-            detailTextField.textColor = .white
+            detailTextView.setForEditing(withIntialText: reminder.detail)
         }
-        detailTextField.textColor = .white
         locationLabel.text = reminder.address
         recurringSegmentedControl.selectedSegmentIndex = reminder.recurring ? 0 : 1
     }
@@ -184,27 +170,24 @@ extension ReminderEditController: MKMapViewDelegate {
     }
 }
 
-//  MARK: - UITextView Delegate methods
+//  MARK: - UITextView Delegate methods to support placeholder text behaviour
 extension ReminderEditController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if detailTextField.text == "Enter extra notes here" {
-            detailTextField.text = ""
-            detailTextField.textColor = .white
+        if !detailTextView.placeholderRemoved {
+            detailTextView.setForEditing(withIntialText: "")
         }
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
-            detailTextField.resignFirstResponder()
+            detailTextView.resignFirstResponder()
         }
         return true
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        print("Called")
-        if detailTextField.text == "" {
-            detailTextField.text = "Enter extra notes here"
-            detailTextField.textColor = UIColor(displayP3Red: 102/255, green: 162/255, blue: 195/255, alpha: 1.0)
+        if detailTextView.text == "" {
+            detailTextView.setPlaceholder()
         }
     }
 }

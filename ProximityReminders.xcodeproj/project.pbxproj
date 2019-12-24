@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8601B5F323989E4C00260305 /* PlaceSearchControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8601B5F223989E4C00260305 /* PlaceSearchControllerDelegate.swift */; };
 		8601B5F52398A2C600260305 /* UIViewController+UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8601B5F42398A2C600260305 /* UIViewController+UIAlertController.swift */; };
+		862147B823B23E780077D96F /* ReminderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862147B723B23E780077D96F /* ReminderTextView.swift */; };
 		865362B02399CD2100F9FBED /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865362AF2399CD2100F9FBED /* CoreDataStack.swift */; };
 		865362B22399CD4500F9FBED /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865362B12399CD4500F9FBED /* UIWindow.swift */; };
 		865362B42399D23400F9FBED /* PlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865362B32399D23400F9FBED /* PlaceCell.swift */; };
@@ -35,6 +36,7 @@
 /* Begin PBXFileReference section */
 		8601B5F223989E4C00260305 /* PlaceSearchControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchControllerDelegate.swift; sourceTree = "<group>"; };
 		8601B5F42398A2C600260305 /* UIViewController+UIAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+UIAlertController.swift"; sourceTree = "<group>"; };
+		862147B723B23E780077D96F /* ReminderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReminderTextView.swift; path = ProximityReminders/Controller/ReminderTextView.swift; sourceTree = SOURCE_ROOT; };
 		865362AF2399CD2100F9FBED /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		865362B12399CD4500F9FBED /* UIWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
 		865362B32399D23400F9FBED /* PlaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceCell.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				86F682D22393EA0A00216721 /* LaunchScreen.storyboard */,
 				865362B32399D23400F9FBED /* PlaceCell.swift */,
 				86ECE50A23A08C4C00D2E98B /* ReminderCell.swift */,
+				862147B723B23E780077D96F /* ReminderTextView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 				865362BB2399F51400F9FBED /* Reminder+CoreDataClass.swift in Sources */,
 				8601B5F323989E4C00260305 /* PlaceSearchControllerDelegate.swift in Sources */,
 				865362B42399D23400F9FBED /* PlaceCell.swift in Sources */,
+				862147B823B23E780077D96F /* ReminderTextView.swift in Sources */,
 				86AA43A9239DAC20005BBCD5 /* TableViewExt.swift in Sources */,
 				8684BF492394683D007F303D /* Coordinate.swift in Sources */,
 				8662A6BC239A706500DCADA2 /* Location+CoreDataProperties.swift in Sources */,

@@ -237,7 +237,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Enter extra notes here" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dPa-7p-HU1" userLabel="ReminderDetail Text View">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Enter extra notes here" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dPa-7p-HU1" userLabel="ReminderDetail Text View" customClass="ReminderTextView" customModule="ProximityReminders" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="50" width="414" height="104"/>
                                                 <color key="backgroundColor" red="0.51405602689999996" green="0.80995935200000002" blue="0.95208996530000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" red="0.39987736940000002" green="0.63533413409999995" blue="0.7646096349" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -328,7 +328,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="detailTextField" destination="dPa-7p-HU1" id="lC0-TF-kiA"/>
+                        <outlet property="detailTextView" destination="dPa-7p-HU1" id="iGM-18-3U6"/>
                         <outlet property="locationLabel" destination="wc3-Hn-Fr9" id="ReR-LQ-dBq"/>
                         <outlet property="mapView" destination="1qS-Xn-pnh" id="TDg-cI-tjQ"/>
                         <outlet property="recurringSegmentedControl" destination="z3T-Ef-qT1" id="otB-fS-wRV"/>
