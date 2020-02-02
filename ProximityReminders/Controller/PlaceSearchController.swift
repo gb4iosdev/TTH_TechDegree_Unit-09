@@ -38,6 +38,9 @@ class PlaceSearchController: UIViewController {
         placesTableView.dataSource = self
         placesTableView.delegate = self
         
+        directionSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:UIColor.white], for: .normal)
+        directionSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:UIColor.white], for: .selected)
+        
         mapView.delegate = self
         
         configureSearchController()

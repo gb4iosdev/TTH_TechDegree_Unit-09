@@ -49,6 +49,9 @@ class ReminderEditController: UIViewController {
             detailTextView.setPlaceholder()
         }
         
+        recurringSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:UIColor.white], for: .normal)
+        recurringSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:UIColor.white], for: .selected)
+        
         //Let this view controller respond to map view delegate calls
         mapView.delegate = self
         
